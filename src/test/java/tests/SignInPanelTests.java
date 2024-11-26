@@ -6,12 +6,12 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
 
-public class RegistrationTests {
+public class SignInPanelTests {
 
     @Test
     void registerUser(){
 
-//        executeJavaScript("$('#showroom').remove()"); // Only in the song page
+//      executeJavaScript("$('#showroom').remove()"); // Only in the song page
         open("https://songsterr.com");
 
         $("#menu-signin").click();
