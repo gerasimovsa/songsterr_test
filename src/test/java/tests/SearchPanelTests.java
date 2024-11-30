@@ -88,7 +88,7 @@ public class SearchPanelTests {
 
         open("https://songsterr.com");
 
-        $("#panel-search input").shouldBe(empty).setValue("Michael Jackson" );
+        $("#panel-search input").shouldBe(empty).setValue("Michael Jackson");
         $("#filterByTuningSelectButton").click();
         $("[data-value='Create custom tuning']").click();
         $("#custom-tuning-filter-popup").shouldBe(visible).$("#strings-button").click();
@@ -106,6 +106,35 @@ public class SearchPanelTests {
 
     }
 
+    @Test
+    void openSongFromSearch() {
+
+        open("https://songsterr.com");
+
+        $("#panel-search input").shouldBe(empty).setValue("bondage fairies - gay wedding");
+        $("[data-list='songs']").$(byText("Gay Wedding")).shouldBe(visible).click();
+
+        $("#panel-search").shouldNotBe(visible);
+        $("[aria-label='title']").shouldHave(text("Gay Wedding"));
+        $("[aria-label='artist']").shouldHave(text("Bondage Fairies"));
+
+    }
+
+    @Test
+    void reopenSearchPanel() {
+
+        open("https://songsterr.com");
+
+        $("#panel-search input").shouldBe(empty).setValue("Frank Sinatra");
+        actions().moveToElement($("#filterByInstrumentSelectButton")).
+                moveByOffset(-300, 0).click().perform();
+        $("#menu-search").click();
+
+        $("#panel-search").shouldBe(visible);
+        $("[data-field='artist']").shouldHave(text("Frank Sinatra"));
+
+    }
+
 }
 
-//todo Open Song
+
