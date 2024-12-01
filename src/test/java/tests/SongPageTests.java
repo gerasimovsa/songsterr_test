@@ -83,7 +83,7 @@ public class SongPageTests {
     }
 
     @Test
-    void moveCursorWithinSongTab() {
+    void moveCursorToSongBar() {
 
         Configuration.browserSize = "1920x1200";
         open("https://songsterr.com");
@@ -97,5 +97,43 @@ public class SongPageTests {
                 shouldHave(attribute("style", "transform: translate3d(1337px, -22px, 0px); visibility: visible; opacity: 1;"));
     }
 
+    @Test
+    void markSongBarAsLearned() {
+
+        Configuration.browserSize = "1920x1200";
+        open("https://songsterr.com");
+
+        $("#panel-search input").shouldBe(empty).setValue("aphex twin - rhubarb");
+        $("[data-list='songs']").$(byText("Rhubarb")).click();
+        SelenideElement measure = $$("#tablature svg").get(2);
+        actions().moveToElement(measure).moveByOffset(600, 0).click().perform();
+        $("[aria-label='Open bar menu']").click();
+        $("[data-action-code='markBarLearned']").click();
+
+
+        $("#add-15").shouldBe(visible);
+        $("#add-15").shouldHave(text("15"));
+    }
+
+    @Test
+        void editSongBarFromTablist() {
+
+        Configuration.browserSize = "1920x1200";
+        open("https://songsterr.com");
+
+        $("#panel-search input").shouldBe(empty).setValue("aphex twin - rhubarb");
+        $("[data-list='songs']").$(byText("Rhubarb")).click();
+        SelenideElement measure = $$("#tablature svg").get(2);
+        actions().moveToElement(measure).moveByOffset(600, 0).click().perform();
+        $("[aria-label='Open bar menu']").click();
+        $("[aria-label='Edit bar']").click();
+
+
+        $("[aria-controls='note-editing-menu']").shouldBe(visible);
+        $("#control-editor").shouldHave(attribute("aria-pressed", "true"));
+    }
+
 }
 
+//todo header - add to favorite, create tab, upload gp
+//todo controls - edit, reset edit, change instrument, play
