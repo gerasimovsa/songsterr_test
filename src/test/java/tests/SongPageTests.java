@@ -134,5 +134,3 @@ public class SongPageTests {
     }
 
 }
-
-//todo controls - edit, reset edit, change instrument, play
