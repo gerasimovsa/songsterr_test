@@ -135,5 +135,4 @@ public class SongPageTests {
 
 }
 
-//todo header - add to favorite, create tab, upload gp
 //todo controls - edit, reset edit, change instrument, play

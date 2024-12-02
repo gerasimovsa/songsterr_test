@@ -53,7 +53,7 @@ public class SearchPanelTests {
     }
 
     @Test
-    void clearSearch() {
+    void searchNoSongsFound() {
 
         open("https://songsterr.com");
 
@@ -69,7 +69,7 @@ public class SearchPanelTests {
     }
 
     @Test
-    void filterSearchByDifficulty() {
+    void searchFilterSortByDifficulty() {
 
         open("https://songsterr.com");
 
@@ -84,7 +84,7 @@ public class SearchPanelTests {
     }
 
     @Test
-    void filterSearchByCustomTuning() {
+    void searchFilterSortByCustomTuning() {
 
         open("https://songsterr.com");
 
