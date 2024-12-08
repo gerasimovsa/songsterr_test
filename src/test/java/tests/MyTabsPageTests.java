@@ -2,14 +2,12 @@ package tests;
 
 
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.Alert;
 
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Condition.empty;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class MyTabsPageTests {
@@ -91,12 +89,102 @@ public class MyTabsPageTests {
 
         $("#apptab span").shouldHave(text("The tab was successfully deleted!"));
 
+    }
 
+    @Test
+    void addSongToPlaylist() {
 
+        Configuration.timeout = 10000;
+
+        open("https://songsterr.com");
+
+        $("#menu-signin").click();
+        $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
+        $("[name='password']").shouldBe(empty).setValue("newpassword1");
+        $("#signin").click();
+        $("#menu-account").lastChild().shouldHave(text("regular_s"));
+
+        $("#menu-search").click();
+        $("#panel-search input").shouldBe(empty).setValue("happy ending the strokes");
+        $$("[data-field='name']").findBy(exactText("Happy Ending")).click();
+
+        $("#favorite-toggle").shouldBe(visible).click();
+        $("#menu-favorites").click();
+
+        $("#title-playlists").ancestor("a").click();
+        $("#create-playlist").click();
+        $("#playlist-menu textarea").shouldBe(empty).setValue("MyTestPlaylist").pressEnter();
+
+        $(byText("Favorites")).ancestor("a").click();
+
+        $("#song-options-button").click();
+        $("#song-options-button").$(byText("MyTestPlaylist")).click();
+
+        $("#title-playlists").ancestor("a").click();
+
+        $("[data-list='favorites'] [data-field='name']").shouldHave(text("Happy Ending"));
+        $("[data-list='favorites'] [data-field='artist']").shouldHave(text("The Strokes"));
+
+    }
+
+    @Test
+    void removeSongFromPlaylist() {
+
+        open("https://songsterr.com");
+
+        $("#menu-signin").click();
+        $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
+        $("[name='password']").shouldBe(empty).setValue("newpassword1");
+        $("#signin").click();
+        $("#menu-account").lastChild().shouldHave(text("regular_s"));
+
+        $("#menu-search").click();
+        $("#panel-search input").shouldBe(empty).setValue("happy ending the strokes");
+        $$("[data-field='name']").findBy(exactText("Happy Ending")).click();
+
+        $("#favorite-toggle").shouldBe(visible).click();
+        $("#menu-favorites").click();
+
+        $("#title-playlists").ancestor("a").click();
+        $("#create-playlist").click();
+        $("#playlist-menu textarea").shouldBe(empty).setValue("MyTestPlaylist").pressEnter();
+
+        $(byText("Favorites")).ancestor("a").click();
+
+        $("#song-options-button").click();
+        $("#song-options-button").$(byText("MyTestPlaylist")).click();
+
+        $("#title-playlists").ancestor("a").click();
+
+        $("#song-options-button").shouldBe(visible).click();
+        $(byText("Remove from this playlist")).click();
+
+        $("[data-stub='nofavorites']").shouldBe(visible);
+
+    }
+
+    @Test
+    void deletePlaylist() {
+
+        open("https://songsterr.com");
+
+        $("#menu-signin").click();
+        $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
+        $("[name='password']").shouldBe(empty).setValue("newpassword1");
+        $("#signin").click();
+        $("#menu-account").lastChild().shouldHave(text("regular_s"));
+
+        $("#menu-favorites").click();
+
+        $("#title-playlists").ancestor("a").click();
+        $("#create-playlist").click();
+        $("#playlist-menu textarea").shouldBe(empty).setValue("MyTestPlaylist").pressEnter();
+
+        $("#playlist-menu").$(byText("MyTestPlaylist")).hover();
+        $("[data-feature='remove']").shouldBe(visible).doubleClick();
+
+        $("[data-stub='no-playlists']").shouldBe(visible);
 
     }
 
 }
-
-
-//todo new tab -  create playlist
