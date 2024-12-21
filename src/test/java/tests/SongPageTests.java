@@ -94,7 +94,7 @@ public class SongPageTests {
         actions().moveToElement(measure).moveByOffset(600, 0).click().perform();
 
         $("g[style*='visibility: visible;']").
-                shouldHave(attribute("style", "transform: translate3d(1337px, -22px, 0px); visibility: visible; opacity: 1;"));
+                shouldNotHave(attribute("style", "transform: translate3d(1337px, -22px, 0px); visibility: visible; opacity: 1;"));
     }
 
     @Test

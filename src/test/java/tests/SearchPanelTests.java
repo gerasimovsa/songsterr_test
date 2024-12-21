@@ -22,7 +22,7 @@ public class SearchPanelTests {
 
         $("[data-list='songs']").
                 $$("[data-field='name']").
-                    shouldHave(containExactTextsCaseSensitive("Wonderwall"));
+                shouldHave(containExactTextsCaseSensitive("Wonderwall"));
 
     }
 
@@ -62,7 +62,7 @@ public class SearchPanelTests {
 
         $("#panel-search input").shouldBe(empty);
         ElementsCollection titlesAndArtists = $$("[data-song=''] div>div");
-        for(SelenideElement entry : titlesAndArtists) {
+        for (SelenideElement entry : titlesAndArtists) {
             entry.shouldNotHave(text("FortySecondsToMars"));
         }
 
@@ -101,7 +101,6 @@ public class SearchPanelTests {
         $("[data-list='songs']").
                 $("[data-field='artist']").
                 shouldHave(text("Michael Jackson"));
-
 
 
     }
