@@ -71,7 +71,6 @@ public class NewTabsPageTests {
     @Test
     void cannotCreateSongWithBlankTitle() {
 
-        Configuration.timeout = 10000;
 
         open("https://songsterr.com");
 
