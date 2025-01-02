@@ -11,23 +11,24 @@ public class SignInMenuTests {
     SongsterrApp app = new SongsterrApp();
 
     @Test
-    void registerUser(){
+    void registerUser() {
 
         open("https://songsterr.com");
 
         app.toolbar.openSignInMenu();
         app.signInMenu.openSignUpMenu();
-        app.signInMenu.fillRegistrationUserData("John Doe", "johndoe213800@gmail.com","myPass123");
+        app.signInMenu.fillRegistrationUserData("John Doe", "johndoe213800@gmail.com", "myPass123");
         app.signInMenu.submitSignUp();
         app.toolbar.openAccountMenu();
 
-        app.accountMenu.verifyAccountMenuOpened("John Doe");
+        app.accountMenu.verifyAccountMenuOpened();
+        app.toolbar.verifyAccountNameIsDisplayed("John Doe");
         app.accountMenu.verifyAccountMenuHasUserInfo("John Doe", "johndoe213800@gmail.com");
 
     }
 
     @Test
-    void signInUser(){
+    void signInUser() {
 
         open("https://songsterr.com");
 
@@ -36,13 +37,14 @@ public class SignInMenuTests {
         app.signInMenu.submitSignIn();
         app.toolbar.openAccountMenu();
 
-        app.accountMenu.verifyAccountMenuOpened("John Doe");
+        app.accountMenu.verifyAccountMenuOpened();
+        app.toolbar.verifyAccountNameIsDisplayed("John Doe");
         app.accountMenu.verifyAccountMenuHasUserInfo("John Doe", "johndoe213800@gmail.com");
 
     }
 
     @Test
-    void signOutUser(){
+    void signOutUser() {
 
         open("https://songsterr.com");
 
@@ -52,6 +54,7 @@ public class SignInMenuTests {
         app.toolbar.openAccountMenu();
         app.accountMenu.signOutUser();
 
+        app.toolbar.verifyNoAccountNameIsDisplayed();
         app.signInMenu.verifyUserLoggedOut();
 
     }
@@ -66,10 +69,11 @@ public class SignInMenuTests {
         app.signInMenu.submitSignIn();
         app.toolbar.openAccountMenu();
         app.accountMenu.editAndSaveUserInfo("Joe Deer", "joedeer213800@gmail.com");
-        app.toolbar.closeCurrentMenu();
+        app.toolbar.closeCurrentPanel();
         app.toolbar.openAccountMenu();
 
-        app.accountMenu.verifyAccountMenuOpened("Joe Deer");
+        app.accountMenu.verifyAccountMenuOpened();
+        app.toolbar.verifyAccountNameIsDisplayed("Joe Deer");
         app.accountMenu.verifyAccountMenuHasUserInfo("Joe Deer", "joedeer213800@gmail.com");
 
     }

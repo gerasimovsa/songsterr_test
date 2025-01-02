@@ -24,8 +24,7 @@ public class AccountMenu {
         $("#panel-changePassword").find(byText("Save")).click();
     }
 
-    public void verifyAccountMenuOpened(String accountName) {
-        $("#menu-account").lastChild().shouldHave(text(accountName));
+    public void verifyAccountMenuOpened() {
         $("h1#top").shouldHave(text("Account"));
     }
 

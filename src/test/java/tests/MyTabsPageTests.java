@@ -3,6 +3,7 @@ package tests;
 
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.Test;
+import pages.SongsterrApp;
 
 
 import static com.codeborne.selenide.Condition.*;
@@ -12,26 +13,24 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class MyTabsPageTests {
 
+    SongsterrApp app = new SongsterrApp();
+
     @Test
     void addSongToFavorites() {
 
         open("https://songsterr.com");
 
-        $("#menu-signin").click();
-        $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
-        $("[name='password']").shouldBe(empty).setValue("newpassword1");
-        $("#signin").click();
-        $("#menu-account").lastChild().shouldHave(text("regular_s"));
+        app.toolbar.openSignInMenu();
+        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "newpassword1");
+        app.signInMenu.submitSignIn();
+        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
+        app.toolbar.openSearchPanel();
+        app.searchPanel.enterSearchQuery("happy ending the strokes");
+        app.searchPanel.selectSearchResult("Happy Ending");
+        app.songPage.toggleAddToFavorites();
+        app.toolbar.openMyTabsPanel();
 
-        $("#menu-search").click();
-        $("#panel-search input").shouldBe(empty).setValue("happy ending the strokes");
-        $$("[data-field='name']").findBy(exactText("Happy Ending")).click();
-
-        $("#favorite-toggle").shouldBe(visible).click();
-        $("#menu-favorites").click();
-
-        $("#fav-subpanel [data-field='name']").shouldHave(text("Happy Ending"));
-        $("#fav-subpanel [data-field='artist']").shouldHave(text("The Strokes"));
+        app.myTabsPanel.verifyFavoritesTabHasSong("Happy Ending", "The Strokes");
 
     }
 

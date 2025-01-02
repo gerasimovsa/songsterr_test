@@ -31,7 +31,6 @@ public class SignInMenu {
     }
 
     public void verifyUserLoggedOut() {
-        $("#menu-account").lastChild().shouldHave(text("Sign In"));
         $("h1#top").shouldHave(text("Sign In"));
     }
 
