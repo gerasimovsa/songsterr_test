@@ -6,7 +6,7 @@ import pages.SongsterrApp;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class SignInMenuTests {
+public class SignInMenuTests extends TestBase {
 
     SongsterrApp app = new SongsterrApp();
 

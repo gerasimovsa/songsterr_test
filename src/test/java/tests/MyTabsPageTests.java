@@ -11,22 +11,23 @@ import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
-public class MyTabsPageTests {
+public class MyTabsPageTests extends TestBase {
 
     SongsterrApp app = new SongsterrApp();
 
     @Test
     void addSongToFavorites() {
 
-        open("https://songsterr.com");
+        open("/");
 
         app.toolbar.openSignInMenu();
         app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "newpassword1");
         app.signInMenu.submitSignIn();
         app.toolbar.verifyAccountNameIsDisplayed("regular_s");
+
         app.toolbar.openSearchPanel();
         app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.selectSearchResult("Happy Ending");
+        app.searchPanel.selectSearchResultByText("Happy Ending");
         app.songPage.toggleAddToFavorites();
         app.toolbar.openMyTabsPanel();
 
@@ -37,31 +38,27 @@ public class MyTabsPageTests {
     @Test
     void removeSongFromFavorites() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#menu-signin").click();
-        $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
-        $("[name='password']").shouldBe(empty).setValue("newpassword1");
-        $("#signin").click();
-        $("#menu-account").lastChild().shouldHave(text("regular_s"));
+        app.toolbar.openSignInMenu();
+        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "newpassword1");
+        app.signInMenu.submitSignIn();
+        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
-        $("#menu-search").click();
-        $("#panel-search input").shouldBe(empty).setValue("happy ending the strokes");
-        $$("[data-field='name']").findBy(exactText("Happy Ending")).click();
+        app.toolbar.openSearchPanel();
+        app.searchPanel.enterSearchQuery("happy ending the strokes");
+        app.searchPanel.selectSearchResultByText("Happy Ending");
 
-        $("#favorite-toggle").shouldBe(visible).click();
-        $("#menu-favorites").click();
-        $("#song-options-button").click();
-        $("[data-feature='remove']").click();
+        app.songPage.toggleAddToFavorites();
+        app.toolbar.openMyTabsPanel();
+        app.myTabsPanel.removeFirstSongFromFavorites();
 
-        $("[data-stub='nofavorites']").shouldBe(visible);
+        app.myTabsPanel.verifyFavoritesTabIsEmpty();
 
     }
 
     @Test
     void removeSongFromContributions() {
-
-        Configuration.timeout = 12000;
 
         open("https://songsterr.com");
 

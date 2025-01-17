@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
-public class SongPageTests {
+public class SongPageTests extends TestBase {
 
     @Test
     void openArtistSearch() {
