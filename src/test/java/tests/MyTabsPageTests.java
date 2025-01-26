@@ -1,15 +1,11 @@
 package tests;
 
 
-import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.Test;
 import pages.SongsterrApp;
 
 
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Condition.empty;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.open;
 
 public class MyTabsPageTests extends TestBase {
 
@@ -21,7 +17,7 @@ public class MyTabsPageTests extends TestBase {
         open("/");
 
         app.toolbar.openSignInMenu();
-        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "newpassword1");
+        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
         app.signInMenu.submitSignIn();
         app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
@@ -41,7 +37,7 @@ public class MyTabsPageTests extends TestBase {
         open("/");
 
         app.toolbar.openSignInMenu();
-        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "newpassword1");
+        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
         app.signInMenu.submitSignIn();
         app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
@@ -60,126 +56,112 @@ public class MyTabsPageTests extends TestBase {
     @Test
     void removeSongFromContributions() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#menu-signin").click();
-        $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
-        $("[name='password']").shouldBe(empty).setValue("newpassword1");
-        $("#signin").click();
-        $("#menu-account").lastChild().shouldHave(text("regular_s"));
-
-
-        $("#menu-submit").click();
-        $("[name='title']").shouldBe(empty).setValue("My Test Song");
-        $("[name='artist']").shouldBe(empty).setValue("Test Band");
-        $("[aria-label='Create blank']").click();
-        $("#panel-submit").shouldNotBe(visible);
-
-        $("#menu-favorites").click();
-        $("#title-contributions1").ancestor("a").click();
-        $$("[data-field='name']").findBy(text("My Test Song")).click();
-        $("#song-delete-icon").shouldBe(visible).click();
-        switchTo().alert().sendKeys("test band, My Test Song");
-        confirm();
+        app.toolbar.openSignInMenu();
+        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInMenu.submitSignIn();
+        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
 
-        $("#apptab span").shouldHave(text("The tab was successfully deleted!"));
+        app.toolbar.openNewTabPanel();
+        app.newTabPanel.createNewBlankTab("My Test Song", "Test Band");
+        app.newTabPanel.verifyNewTabPanelIsClosed();
+
+        app.toolbar.openMyTabsPanel();
+
+        app.myTabsPanel.openContributionsTab();
+        app.searchPanel.selectSearchResultByText("My Test Song");
+        app.songPage.deleteContributedSong("My Test Song", "test band");
+
+        app.songPage.verifySongIsDeleted();
+
 
     }
 
     @Test
     void addSongToPlaylist() {
 
-        Configuration.timeout = 10000;
+        open("/");
 
-        open("https://songsterr.com");
+        app.toolbar.openSignInMenu();
+        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInMenu.submitSignIn();
+        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
-        $("#menu-signin").click();
-        $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
-        $("[name='password']").shouldBe(empty).setValue("newpassword1");
-        $("#signin").click();
-        $("#menu-account").lastChild().shouldHave(text("regular_s"));
+        app.toolbar.openSearchPanel();
+        app.searchPanel.enterSearchQuery("happy ending the strokes");
+        app.searchPanel.selectSearchResultByText("Happy Ending");
 
-        $("#menu-search").click();
-        $("#panel-search input").shouldBe(empty).setValue("happy ending the strokes");
-        $$("[data-field='name']").findBy(exactText("Happy Ending")).click();
+        app.songPage.toggleAddToFavorites();
+        app.toolbar.openMyTabsPanel();
 
-        $("#favorite-toggle").shouldBe(visible).click();
-        $("#menu-favorites").click();
+        app.myTabsPanel.openPlaylistsTab();
+        app.myTabsPanel.createPlaylist("MyTestPlaylist");
 
-        $("#title-playlists").ancestor("a").click();
-        $("#create-playlist").click();
-        $("#playlist-menu textarea").shouldBe(empty).setValue("MyTestPlaylist").pressEnter();
+        app.myTabsPanel.openFavoritesTab();
+        app.myTabsPanel.addSongFromFavoritesToPlaylist("MyTestPlaylist");
 
-        $(byText("Favorites")).ancestor("a").click();
-
-        $("#song-options-button").click();
-        $("#song-options-button").$(byText("MyTestPlaylist")).click();
-
-        $("#title-playlists").ancestor("a").click();
-
-        $("[data-list='favorites'] [data-field='name']").shouldHave(text("Happy Ending"));
-        $("[data-list='favorites'] [data-field='artist']").shouldHave(text("The Strokes"));
+        app.myTabsPanel.openPlaylistsTab();
+        app.myTabsPanel.verifyPlaylistHasSong("The Strokes", "Happy Ending");
 
     }
 
     @Test
     void removeSongFromPlaylist() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#menu-signin").click();
-        $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
-        $("[name='password']").shouldBe(empty).setValue("newpassword1");
-        $("#signin").click();
-        $("#menu-account").lastChild().shouldHave(text("regular_s"));
+        app.toolbar.openSignInMenu();
+        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInMenu.submitSignIn();
+        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
-        $("#menu-search").click();
-        $("#panel-search input").shouldBe(empty).setValue("happy ending the strokes");
-        $$("[data-field='name']").findBy(exactText("Happy Ending")).click();
+        app.toolbar.openSearchPanel();
+        app.searchPanel.enterSearchQuery("happy ending the strokes");
+        app.searchPanel.selectSearchResultByText("Happy Ending");
 
-        $("#favorite-toggle").shouldBe(visible).click();
-        $("#menu-favorites").click();
+        app.songPage.toggleAddToFavorites();
+        app.toolbar.openMyTabsPanel();
 
-        $("#title-playlists").ancestor("a").click();
-        $("#create-playlist").click();
-        $("#playlist-menu textarea").shouldBe(empty).setValue("MyTestPlaylist").pressEnter();
+        app.myTabsPanel.openPlaylistsTab();
+        app.myTabsPanel.createPlaylist("MyTestPlaylist");
 
-        $(byText("Favorites")).ancestor("a").click();
+        app.myTabsPanel.openFavoritesTab();
+        app.myTabsPanel.addSongFromFavoritesToPlaylist("MyTestPlaylist");
 
-        $("#song-options-button").click();
-        $("#song-options-button").$(byText("MyTestPlaylist")).click();
+        app.myTabsPanel.openPlaylistsTab();
 
-        $("#title-playlists").ancestor("a").click();
+        app.myTabsPanel.removeSongFromPlaylist();
 
-        $("#song-options-button").shouldBe(visible).click();
-        $(byText("Remove from this playlist")).click();
-
-        $("[data-stub='nofavorites']").shouldBe(visible);
+        app.myTabsPanel.verifyPlaylistIsEmpty();
 
     }
 
     @Test
     void deletePlaylist() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#menu-signin").click();
-        $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
-        $("[name='password']").shouldBe(empty).setValue("newpassword1");
-        $("#signin").click();
-        $("#menu-account").lastChild().shouldHave(text("regular_s"));
+        app.toolbar.openSignInMenu();
+        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInMenu.submitSignIn();
+        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
-        $("#menu-favorites").click();
+        app.toolbar.openSearchPanel();
+        app.searchPanel.enterSearchQuery("happy ending the strokes");
+        app.searchPanel.selectSearchResultByText("Happy Ending");
 
-        $("#title-playlists").ancestor("a").click();
-        $("#create-playlist").click();
-        $("#playlist-menu textarea").shouldBe(empty).setValue("MyTestPlaylist").pressEnter();
+        app.songPage.toggleAddToFavorites();
+        app.toolbar.openMyTabsPanel();
 
-        $("#playlist-menu").$(byText("MyTestPlaylist")).hover();
-        $("[data-feature='remove']").shouldBe(visible).doubleClick();
+        app.myTabsPanel.openPlaylistsTab();
+        app.myTabsPanel.createPlaylist("MyTestPlaylist");
 
-        $("[data-stub='no-playlists']").shouldBe(visible);
+        app.myTabsPanel.deletePlaylist("MyTestPlaylist");
+
+
+        app.myTabsPanel.verifyPlaylistsTabIsEmpty();
 
     }
 

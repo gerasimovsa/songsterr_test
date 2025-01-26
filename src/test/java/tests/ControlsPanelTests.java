@@ -20,7 +20,7 @@ public class ControlsPanelTests extends TestBase {
 
         $("#menu-signin").click();
         $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
-        $("[name='password']").shouldBe(empty).setValue("newpassword1");
+        $("[name='password']").shouldBe(empty).setValue("mypass123");
         $("#signin").click();
         $("#menu-account").lastChild().shouldHave(text("regular_s"));
 
@@ -45,7 +45,7 @@ public class ControlsPanelTests extends TestBase {
 
         $("#menu-signin").click();
         $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
-        $("[name='password']").shouldBe(empty).setValue("newpassword1");
+        $("[name='password']").shouldBe(empty).setValue("mypass123");
         $("#signin").click();
         $("#menu-account").lastChild().shouldHave(text("regular_s"));
 

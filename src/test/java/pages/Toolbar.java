@@ -22,6 +22,10 @@ public class Toolbar {
         $("#menu-favorites").shouldBe(visible).click();
     }
 
+    public void openNewTabPanel() {
+        $("#menu-submit").shouldBe(visible).click();
+    }
+
     public void closeCurrentPanel() {
         $("#sidebar-overlay").click();
     }

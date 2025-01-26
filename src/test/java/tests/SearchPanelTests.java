@@ -1,136 +1,107 @@
 package tests;
 
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Test;
+import pages.SongsterrApp;
 
-import static com.codeborne.selenide.CollectionCondition.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class SearchPanelTests extends TestBase {
 
+    SongsterrApp app = new SongsterrApp();
+
     @Test
     void searchByTitle() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#panel-search input").shouldBe(empty).setValue("Wonderwall");
-
-        $("[data-list='songs']").
-                $$("[data-field='name']").
-                shouldHave(containExactTextsCaseSensitive("Wonderwall"));
+        app.searchPanel.enterSearchQuery("Wonderwall");
+        app.searchPanel.verifySearchResultTitlesHaveText("Wonderwall");
 
     }
 
     @Test
     void searchNoTabsFound() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#panel-search input").shouldBe(empty).setValue("zxcvbnmqwertyui");
-
-        $$("[data-list='songs']").shouldHave(size(0));
-        $("[data-stub='notfound']").shouldBe(visible).
-                $("div").shouldHave(text("Tabs not found"));
+        app.searchPanel.enterSearchQuery("zxcvbnmqwertyui");
+        app.searchPanel.verifyNoSearchResults();
 
     }
 
     @Test
     void searchByArtist() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#panel-search input").shouldBe(empty).setValue("Radiohead");
-
-        $("[data-list='songs']").
-                $$("[data-field='artist']").
-                shouldHave(containExactTextsCaseSensitive("Radiohead"));
+        app.searchPanel.enterSearchQuery("Radiohead");
+        app.searchPanel.verifySearchResultArtistsHaveText("Radiohead");
 
     }
 
     @Test
-    void searchNoSongsFound() {
+    void clearSearchField() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#panel-search input").shouldBe(empty).setValue("FortySecondsToMars");
-        $$("#panel-search svg").first().click();
+        app.searchPanel.enterSearchQuery("FortySecondsToMars");
+        app.searchPanel.clearSearchBar();
 
-        $("#panel-search input").shouldBe(empty);
-        ElementsCollection titlesAndArtists = $$("[data-song=''] div>div");
-        for (SelenideElement entry : titlesAndArtists) {
-            entry.shouldNotHave(text("FortySecondsToMars"));
-        }
+        app.searchPanel.verifySearchResultsHaveNoText("FortySecondsToMars");
 
     }
 
     @Test
     void searchFilterSortByDifficulty() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#panel-search input").shouldBe(empty).setValue("The Strokes");
-        $("#filterByDifficultySelectButton").click();
-        $("#filterByDifficultySelect").find(byText("Advanced")).click();
+        app.searchPanel.enterSearchQuery("Strokes");
+        app.searchPanel.filterSearchResultsByDifficulty("Advanced");
 
-        $("#filterByDifficultySelectButton div").shouldHave(text("Advanced"));
-        $$("[data-list='songs'] span").shouldHave(size(4));
-        $$("[data-list='songs'] span").last().shouldHave(attributeMatching("title", "Advanced. Tier (1|2|3)"));
-
+        app.searchPanel.verifySearchResultsCount(4);
+        app.searchPanel.verifySearchResultsHaveDifficulty("Advanced");
     }
 
     @Test
     void searchFilterSortByCustomTuning() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#panel-search input").shouldBe(empty).setValue("Michael Jackson");
-        $("#filterByTuningSelectButton").click();
-        $("[data-value='Create custom tuning']").click();
-        $("#custom-tuning-filter-popup").shouldBe(visible).$("#strings-button").click();
-        $("#strings-button-option-3").click();
-        $("#custom-tuning-filter-popup").find(byText("Create")).click();
+        app.searchPanel.enterSearchQuery("Michael Jackson");
+        app.searchPanel.createCustomTuningFilter(3);
 
-        $("[data-list='songs']").
-                $("[data-field='name']").
-                shouldHave(text("Smooth Criminal"));
-        $("[data-list='songs']").
-                $("[data-field='artist']").
-                shouldHave(text("Michael Jackson"));
-
+        app.searchPanel.verifySearchResultTitlesHaveText("Smooth Criminal");
+        app.searchPanel.verifySearchResultArtistsHaveText("Michael Jackson");
 
     }
 
     @Test
     void openSongFromSearch() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#panel-search input").shouldBe(empty).setValue("bondage fairies - gay wedding");
-        $("[data-list='songs']").$(byText("Gay Wedding")).shouldBe(visible).click();
+        app.searchPanel.enterSearchQuery("bondage fairies - gay wedding");
+        app.searchPanel.selectSearchResultByText("Gay Wedding");
 
-        $("#panel-search").shouldNotBe(visible);
-        $("[aria-label='title']").shouldHave(text("Gay Wedding"));
-        $("[aria-label='artist']").shouldHave(text("Bondage Fairies"));
+        app.searchPanel.verifySearchPanelIsClosed();
+        app.songPage.verifySongPageHasHeaderTitle("Gay Wedding","Bondage Fairies");
 
     }
 
     @Test
     void reopenSearchPanel() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#panel-search input").shouldBe(empty).setValue("Frank Sinatra");
-        actions().moveToElement($("#filterByInstrumentSelectButton")).
-                moveByOffset(-300, 0).click().perform();
-        $("#menu-search").click();
+        app.searchPanel.enterSearchQuery("Frank Sinatra");
+        app.searchPanel.closeSearchPanelByClickingSidebar();
+        app.toolbar.openSearchPanel();
 
-        $("#panel-search").shouldBe(visible);
-        $("[data-field='artist']").shouldHave(text("Frank Sinatra"));
+        app.searchPanel.verifySearchResultArtistsHaveText("Frank Sinatra");
 
     }
 

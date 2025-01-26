@@ -9,7 +9,7 @@ public class TestBase {
     static void beforeAll() {
         Configuration.baseUrl = "https://songsterr.com";
         Configuration.browserSize = "1920x1080";
-        Configuration.timeout = 10000;
+        Configuration.timeout = 15000;
     }
 
 }

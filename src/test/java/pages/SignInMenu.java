@@ -1,5 +1,7 @@
 package pages;
 
+import com.codeborne.selenide.Selenide;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
@@ -27,6 +29,7 @@ public class SignInMenu {
     }
 
     public void submitSignIn() {
+        Selenide.sleep(2000);
         $("#signin").click();
     }
 
