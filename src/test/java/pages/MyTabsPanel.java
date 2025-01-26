@@ -53,8 +53,8 @@ public class MyTabsPanel {
     }
 
     public void verifyPlaylistHasSong(String artist, String title) {
-        $("[data-list='favorites'] [data-field='name']").shouldHave(text("Happy Ending"));
-        $("[data-list='favorites'] [data-field='artist']").shouldHave(text("The Strokes"));
+        $("[data-list='favorites'] [data-field='name']").shouldHave(text(title));
+        $("[data-list='favorites'] [data-field='artist']").shouldHave(text(artist));
     }
 
     public void verifyPlaylistIsEmpty() {

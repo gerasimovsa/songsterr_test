@@ -3,9 +3,6 @@ package tests;
 import org.junit.jupiter.api.Test;
 import pages.SongsterrApp;
 
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Condition.empty;
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 
 public class SearchPanelTests extends TestBase {
@@ -101,6 +98,7 @@ public class SearchPanelTests extends TestBase {
         app.searchPanel.closeSearchPanelByClickingSidebar();
         app.toolbar.openSearchPanel();
 
+        app.searchPanel.verifySearchPanelIsOpened();
         app.searchPanel.verifySearchResultArtistsHaveText("Frank Sinatra");
 
     }
