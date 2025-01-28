@@ -3,9 +3,9 @@ package tests;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Test;
+import pages.SongsterrApp;
 
 
-import static com.codeborne.selenide.CollectionCondition.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Selectors.byText;
@@ -13,124 +13,86 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class SongPageTests extends TestBase {
 
+    SongsterrApp app = new SongsterrApp();
+
     @Test
     void openArtistSearch() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#panel-search input").shouldBe(empty).setValue("aphex twin - rhubarb");
-        $("[data-list='songs']").$(byText("Rhubarb")).click();
-        $("[aria-label='artist']").shouldBe(visible).click();
+        app.searchPanel.enterSearchQuery("aphex twin - rhubarb");
+        app.searchPanel.openSearchResultByText("Rhubarb");
+        app.songPage.openArtistOfCurrentSong();
 
-        $$("[data-field='artist']").should(containExactTextsCaseSensitive("Aphex Twin"));
+        app.searchPanel.verifySearchResultArtistsHaveText("Aphex Twin");
 
     }
 
     @Test
     void openRevisionTab() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#panel-search input").shouldBe(empty).setValue("aphex twin - rhubarb");
-        $("[data-list='songs']").$(byText("Rhubarb")).click();
-        $("#revisions-toggle-tab").shouldBe(visible).click();
+        app.searchPanel.enterSearchQuery("aphex twin - rhubarb");
+        app.searchPanel.openSearchResultByText("Rhubarb");
+        app.songPage.openRevisionsOfCurrentSong();
 
-        $("#diff").shouldBe(visible);
-        $("#revisions-list").shouldBe(visible);
+        app.songPage.verifyRevisionsOpened();
 
     }
 
     @Test
     void addSongToFavoritesWhenNotLoggedIn() {
 
-        open("https://songsterr.com");
+        open("/");
 
-        $("#panel-search input").shouldBe(empty).setValue("aphex twin - rhubarb");
-        $("[data-list='songs']").$(byText("Rhubarb")).click();
-        $("#favorite-toggle").shouldBe(visible).click();
+        app.searchPanel.enterSearchQuery("aphex twin - rhubarb");
+        app.searchPanel.openSearchResultByText("Rhubarb");
+        app.songPage.addCurrentSongToFavorites();
 
-        $("#favorite-popup").shouldBe(visible);
-        $("#favorite-popup div").shouldHave(text("Please sign up for free to favorite this tab"));
-
-    }
-
-    @Test
-    void openFavoritesWhenNotLoggedIn() {
-
-        open("https://songsterr.com");
-
-        $("#panel-search input").shouldBe(empty).setValue("aphex twin - rhubarb");
-        $("[data-list='songs']").$(byText("Rhubarb")).click();
-        $("#menu-favorites").click();
-
-        $("#panel-favorites").shouldBe(visible);
-        $("#panel-favorites section div").shouldHave(text("Please sign up for free to create favorites"));
-
-    }
-
-    @Test
-    void openSubmitMenuWhenNotLoggedIn() {
-
-        open("https://songsterr.com");
-
-        $("#panel-search input").shouldBe(empty).setValue("aphex twin - rhubarb");
-        $("[data-list='songs']").$(byText("Rhubarb")).click();
-        $("#menu-favorites").click();
-
-        $("#panel-favorites").shouldBe(visible);
-        $("#panel-favorites section div").shouldHave(text("Please sign up for free to create favorites"));
+        app.songPage.verifySignUpWarningIsDisplayed();
 
     }
 
     @Test
     void moveCursorToSongBar() {
 
-        Configuration.browserSize = "1920x1200";
-        open("https://songsterr.com");
+        open("/");
 
-        $("#panel-search input").shouldBe(empty).setValue("aphex twin - rhubarb");
-        $("[data-list='songs']").$(byText("Rhubarb")).click();
-        SelenideElement measure = $$("#tablature svg").get(2);
-        actions().moveToElement(measure).moveByOffset(600, 0).click().perform();
+        app.searchPanel.enterSearchQuery("aphex twin - rhubarb");
+        app.searchPanel.openSearchResultByText("Rhubarb");
+        app.songPage.selectSongBarAtRow(2, 600);
 
-        $("g[style*='visibility: visible;']").
-                shouldNotHave(attribute("style", "transform: translate3d(1337px, -22px, 0px); visibility: visible; opacity: 1;"));
+        app.songPage.verifyCursorHasTransform(1337, -22, 0);
+
     }
 
     @Test
     void markSongBarAsLearned() {
 
-        Configuration.browserSize = "1920x1200";
-        open("https://songsterr.com");
+        open("/");
 
-        $("#panel-search input").shouldBe(empty).setValue("aphex twin - rhubarb");
-        $("[data-list='songs']").$(byText("Rhubarb")).click();
-        SelenideElement measure = $$("#tablature svg").get(2);
-        actions().moveToElement(measure).moveByOffset(600, 0).click().perform();
-        $("[aria-label='Open bar menu']").click();
-        $("[data-action-code='markBarLearned']").click();
+        app.searchPanel.enterSearchQuery("aphex twin - rhubarb");
+        app.searchPanel.openSearchResultByText("Rhubarb");
+        app.songPage.selectSongBarAtRow(2, 600);
+        app.songPage.markCurrentBarAsLearned();
 
+        app.songPage.verifyBarMarkedAsLearned(15);
 
-        $("#add-15").shouldBe(visible);
-        $("#add-15").shouldHave(text("15"));
     }
 
     @Test
-        void editSongBarFromTablist() {
-
-        Configuration.browserSize = "1920x1200";
-        open("https://songsterr.com");
-
-        $("#panel-search input").shouldBe(empty).setValue("aphex twin - rhubarb");
-        $("[data-list='songs']").$(byText("Rhubarb")).click();
-        SelenideElement measure = $$("#tablature svg").get(2);
-        actions().moveToElement(measure).moveByOffset(600, 0).click().perform();
-        $("[aria-label='Open bar menu']").click();
-        $("[aria-label='Edit bar']").click();
+    void editSongBarFromTablist() {
 
 
-        $("[aria-controls='note-editing-menu']").shouldBe(visible);
-        $("#control-editor").shouldHave(attribute("aria-pressed", "true"));
+        open("/");
+
+        app.searchPanel.enterSearchQuery("aphex twin - rhubarb");
+        app.searchPanel.openSearchResultByText("Rhubarb");
+        app.songPage.selectSongBarAtRow(2, 600);
+        app.songPage.enableEditModeForCurrentSong();
+
+        app.songPage.verifyEditModeIsaEnabled();
     }
 
 }

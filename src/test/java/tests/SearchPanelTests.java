@@ -82,7 +82,7 @@ public class SearchPanelTests extends TestBase {
         open("/");
 
         app.searchPanel.enterSearchQuery("bondage fairies - gay wedding");
-        app.searchPanel.selectSearchResultByText("Gay Wedding");
+        app.searchPanel.openSearchResultByText("Gay Wedding");
 
         app.searchPanel.verifySearchPanelIsClosed();
         app.songPage.verifySongPageHasHeaderTitle("Gay Wedding","Bondage Fairies");

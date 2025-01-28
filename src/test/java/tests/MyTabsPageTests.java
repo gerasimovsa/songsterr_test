@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import pages.SongsterrApp;
 
 
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class MyTabsPageTests extends TestBase {
@@ -23,8 +24,8 @@ public class MyTabsPageTests extends TestBase {
 
         app.toolbar.openSearchPanel();
         app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.selectSearchResultByText("Happy Ending");
-        app.songPage.toggleAddToFavorites();
+        app.searchPanel.openSearchResultByText("Happy Ending");
+        app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
 
         app.myTabsPanel.verifyFavoritesTabHasSong("Happy Ending", "The Strokes");
@@ -43,9 +44,9 @@ public class MyTabsPageTests extends TestBase {
 
         app.toolbar.openSearchPanel();
         app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.selectSearchResultByText("Happy Ending");
+        app.searchPanel.openSearchResultByText("Happy Ending");
 
-        app.songPage.toggleAddToFavorites();
+        app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
         app.myTabsPanel.removeFirstSongFromFavorites();
 
@@ -71,7 +72,7 @@ public class MyTabsPageTests extends TestBase {
         app.toolbar.openMyTabsPanel();
 
         app.myTabsPanel.openContributionsTab();
-        app.searchPanel.selectSearchResultByText("My Test Song");
+        app.searchPanel.openSearchResultByText("My Test Song");
         app.songPage.deleteContributedSong("My Test Song", "test band");
 
         app.songPage.verifySongIsDeleted();
@@ -91,9 +92,9 @@ public class MyTabsPageTests extends TestBase {
 
         app.toolbar.openSearchPanel();
         app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.selectSearchResultByText("Happy Ending");
+        app.searchPanel.openSearchResultByText("Happy Ending");
 
-        app.songPage.toggleAddToFavorites();
+        app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
 
         app.myTabsPanel.openPlaylistsTab();
@@ -119,9 +120,9 @@ public class MyTabsPageTests extends TestBase {
 
         app.toolbar.openSearchPanel();
         app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.selectSearchResultByText("Happy Ending");
+        app.searchPanel.openSearchResultByText("Happy Ending");
 
-        app.songPage.toggleAddToFavorites();
+        app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
 
         app.myTabsPanel.openPlaylistsTab();
@@ -150,9 +151,9 @@ public class MyTabsPageTests extends TestBase {
 
         app.toolbar.openSearchPanel();
         app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.selectSearchResultByText("Happy Ending");
+        app.searchPanel.openSearchResultByText("Happy Ending");
 
-        app.songPage.toggleAddToFavorites();
+        app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
 
         app.myTabsPanel.openPlaylistsTab();

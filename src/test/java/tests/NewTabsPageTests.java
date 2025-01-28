@@ -1,92 +1,65 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.Test;
+import pages.SongsterrApp;
 
-import java.io.File;
-
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.$;
 
 
 public class NewTabsPageTests extends TestBase {
 
+    SongsterrApp app = new SongsterrApp();
+
     @Test
     void createNewBlankSong() {
 
-        Configuration.timeout = 10000;
+        open("/");
 
-        open("https://songsterr.com");
+        app.toolbar.openSignInMenu();
+        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInMenu.submitSignIn();
+        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
+        app.toolbar.openNewTabPanel();
+        app.newTabPanel.createNewBlankTab("My Test Song", "Test Band");
 
-        $("#menu-signin").click();
-        $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
-        $("[name='password']").shouldBe(empty).setValue("newpassword1");
-        $("#signin").click();
-        $("#menu-account").lastChild().shouldHave(text("regular_s"));
-
-        $("#menu-submit").click();
-        $("[name='title']").shouldBe(empty).setValue("My Test Song");
-        $("[name='artist']").shouldBe(empty).setValue("Test Band");
-        $("[aria-label='Create blank']").click();
-
-
-        $("#panel-submit").shouldNotBe(visible);
-        $("[aria-label='title']").shouldHave(text("My Test Song"));
-        $("[aria-label='artist']").shouldHave(text("Test Band"));
+        app.newTabPanel.verifyNewTabPanelIsClosed();
+        app.songPage.verifySongPageHasHeaderTitle("My Test Song", "Test Band");
 
     }
 
     @Test
     void createNewSongFromGPFile() {
 
-        Configuration.timeout = 10000;
+        open("/");
 
-        open("https://songsterr.com");
+        app.toolbar.openSignInMenu();
+        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInMenu.submitSignIn();
+        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
+        app.toolbar.openNewTabPanel();
+        app.newTabPanel.createNewTabFromGuitarProTab
+                ("Song from GP File", "Test GP Band", "src/test/resources/my_gp_file.gp3");
 
-        $("#menu-signin").click();
-        $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
-        $("[name='password']").shouldBe(empty).setValue("newpassword1");
-        $("#signin").click();
-        $("#menu-account").lastChild().shouldHave(text("regular_s"));
-
-        $("#menu-submit").click();
-        $("[aria-label='Upload GuitarPro']").click();
-        $("[name='title']").shouldBe(empty).setValue("Song from GP File");
-        $("[name='artist']").shouldBe(empty).setValue("Test GP Band");
-
-
-        File gpFile = new File("src/test/resources/my_gp_file.gp3");
-        $("#tabFile").uploadFile(gpFile);
-        $("[aria-label='Upload']").click();
-
-
-        $("#panel-submit").shouldNotBe(visible);
-        $("[aria-label='title']").shouldHave(text("Song from GP File"));
-        $("[aria-label='artist']").shouldHave(text("Test GP Band"));
+        app.newTabPanel.verifyNewTabPanelIsClosed();
+        app.songPage.verifySongPageHasHeaderTitle("Song from GP File", "Test GP Band");
 
     }
 
     @Test
     void cannotCreateSongWithBlankTitle() {
 
+        open("/");
 
-        open("https://songsterr.com");
+        app.toolbar.openSignInMenu();
+        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInMenu.submitSignIn();
+        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
+        app.toolbar.openNewTabPanel();
 
-        $("#menu-signin").click();
-        $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
-        $("[name='password']").shouldBe(empty).setValue("newpassword1");
-        $("#signin").click();
-        $("#menu-account").lastChild().shouldHave(text("regular_s"));
+        app.newTabPanel.createNewBlankTab("", "Test Band");
 
-        $("#menu-submit").click();
-        $("[name='artist']").shouldBe(empty).setValue("Metallica");
-        $("[aria-label='Create blank']").click();
-
-
-        $("[name='title']").
-                sibling(1).shouldHave(text("Should not be empty"));
+        app.newTabPanel.verifyBlankTitleFieldHasWarning();
 
     }
 

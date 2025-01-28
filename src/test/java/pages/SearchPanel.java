@@ -15,7 +15,7 @@ public class SearchPanel {
         $("#panel-search input").shouldBe(empty).setValue(query);
     }
 
-    public void selectSearchResultByText(String text) {
+    public void openSearchResultByText(String text) {
         $$("[data-field='name']").findBy(text(text)).click();
     }
 

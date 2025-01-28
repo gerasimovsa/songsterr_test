@@ -2,6 +2,7 @@ package tests;
 
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.Test;
+import pages.SongsterrApp;
 
 import java.time.Duration;
 
@@ -13,20 +14,21 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class ControlsPanelTests extends TestBase {
 
+    SongsterrApp app = new SongsterrApp();
+
     @Test
     void editSongFromNoteMenu() {
 
         open("https://songsterr.com");
 
-        $("#menu-signin").click();
-        $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
-        $("[name='password']").shouldBe(empty).setValue("mypass123");
-        $("#signin").click();
-        $("#menu-account").lastChild().shouldHave(text("regular_s"));
+        app.toolbar.openSignInMenu();
+        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInMenu.submitSignIn();
+        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
-        $("#menu-search").click();
-        $("#panel-search input").shouldBe(empty).setValue("happy ending the strokes");
-        $$("[data-field='name']").findBy(exactText("Happy Ending")).click();
+        app.toolbar.openSearchPanel();
+        app.searchPanel.enterSearchQuery("happy ending the strokes");
+        app.searchPanel.verifySearchResultTitlesHaveText("Happy Ending");
 
         $("#control-editor").shouldBe(visible).click();
         $("[aria-controls='note-editing-menu']").click();
