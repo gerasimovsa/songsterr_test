@@ -9,5 +9,6 @@ public class SongsterrApp {
     public SongPage songPage = new SongPage();
     public MyTabsPanel myTabsPanel = new MyTabsPanel();
     public NewTabPanel newTabPanel = new NewTabPanel();
+    public ControlsBar controlsBar = new ControlsBar();
 
 }

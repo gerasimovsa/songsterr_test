@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import pages.SongsterrApp;
 
 
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class MyTabsPageTests extends TestBase {

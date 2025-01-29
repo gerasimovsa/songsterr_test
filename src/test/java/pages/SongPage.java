@@ -2,7 +2,7 @@ package pages;
 
 import com.codeborne.selenide.SelenideElement;
 
-import javax.lang.model.element.NestingKind;
+import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -42,9 +42,14 @@ public class SongPage {
         $("[data-action-code='markBarLearned']").click();
     }
 
-    public void enableEditModeForCurrentSong() {
+    public void enableEditModeFromBarMenu() {
         $("[aria-label='Open bar menu']").click();
         $("[aria-label='Edit bar']").click();
+    }
+
+    public void selectOptionInNoteEditingMenu(String option) {
+        $("[aria-controls='note-editing-menu']").click();
+        $("button[aria-label='" + option + "']").shouldBe(visible).click();
     }
 
     public void verifySongPageHasHeaderTitle(String title, String artist) {
@@ -63,19 +68,18 @@ public class SongPage {
     }
 
     public void verifyCursorHasTransform(int x, int y, int z) {
-        $("g[style*='visibility: visible;']").
-                shouldNotHave(attribute(
-                                "style",
-                                "transform: translate3d("
-                                        + x
-                                        + "px, "
-                                        + y
-                                        + "px, "
-                                        + z
-                                        + "px"
-                                        + "); visibility: visible; opacity: 1;"
-                        )
-                );
+        $("g[style*='visibility: visible;']")
+                .shouldNotHave(attribute("style",
+                        "transform: translate3d(" + x + "px, " + y + "px, " + z + "px" +
+                                "); visibility: visible; opacity: 1;"));
+    }
+
+    public void verifyCursorIsNotOnDefaultPosition(int x, int y, int z) {
+        $("g[style*='visibility: visible;']")
+                .shouldNotHave(attribute(
+                        "style",
+                        "transform: translate3d(" + x + "px, " + y + "px, " + z + "px" + ");" +
+                                " visibility: visible; opacity: 1;"), Duration.ofSeconds(10));
     }
 
     public void verifyBarMarkedAsLearned(int barNumber) {
@@ -83,7 +87,7 @@ public class SongPage {
         $("#add-" + barNumber).shouldHave(text(String.valueOf(barNumber)));
     }
 
-    public void verifyEditModeIsaEnabled() {
+    public void verifyBarEditModeIsEnabled() {
         $("[aria-controls='note-editing-menu']").shouldBe(visible);
         $("#control-editor").shouldHave(attribute("aria-pressed", "true"));
     }

@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import pages.SongsterrApp;
 
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.Selenide.$;
-
 
 public class NewTabsPageTests extends TestBase {
 

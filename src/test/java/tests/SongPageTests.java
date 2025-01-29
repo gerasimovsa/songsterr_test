@@ -1,14 +1,9 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.SelenideElement;
 import org.junit.jupiter.api.Test;
 import pages.SongsterrApp;
 
 
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Condition.empty;
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class SongPageTests extends TestBase {
@@ -90,9 +85,9 @@ public class SongPageTests extends TestBase {
         app.searchPanel.enterSearchQuery("aphex twin - rhubarb");
         app.searchPanel.openSearchResultByText("Rhubarb");
         app.songPage.selectSongBarAtRow(2, 600);
-        app.songPage.enableEditModeForCurrentSong();
+        app.songPage.enableEditModeFromBarMenu();
 
-        app.songPage.verifyEditModeIsaEnabled();
+        app.songPage.verifyBarEditModeIsEnabled();
     }
 
 }
