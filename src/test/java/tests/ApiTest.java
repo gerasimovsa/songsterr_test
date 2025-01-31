@@ -1,20 +1,25 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
 import pages.ApiUtils;
+import pages.SongsterrApp;
 
 import java.util.Set;
 
-public class ApiTest {
+import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.sleep;
+import static pages.SongsterrApp.toolbar;
 
-    ApiUtils utils = new ApiUtils();
+public class ApiTest extends TestBase{
 
     @Test
+    @Tag("AuthRequired")
     void login(){
-        Cookie cookie = utils.getAuthCookie();
-        System.out.println(cookie);
-        utils.loginUser(cookie);
+        open("/");
+        toolbar.openMyTabsPanel();
+        sleep(5000);
     }
 }
