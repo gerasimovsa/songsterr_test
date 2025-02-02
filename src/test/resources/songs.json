@@ -1,0 +1,279 @@
+[
+  {
+    "songId": 33372,
+    "artistId": 186038,
+    "artist": "Does it offend you yeah?",
+    "title": "Dawn Of The Dead",
+    "hasChords": false,
+    "hasPlayer": true,
+    "tracks": [
+      {
+        "instrumentId": 80,
+        "instrument": "Lead 1 (square)",
+        "views": 0,
+        "name": "Track 1",
+        "tuning": [
+          64,
+          59,
+          55,
+          50,
+          45,
+          40
+        ],
+        "hash": "other_Ule5ln1A"
+      },
+      {
+        "instrumentId": 27,
+        "instrument": "Electric Guitar (clean)",
+        "views": 3,
+        "name": "Track 2",
+        "tuning": [
+          64,
+          59,
+          55,
+          50,
+          45,
+          38
+        ],
+        "difficulty": 2,
+        "hash": "guitar_fPVB8pay"
+      },
+      {
+        "instrumentId": 33,
+        "instrument": "Electric Bass (finger)",
+        "views": 8,
+        "name": "Track 3",
+        "tuning": [
+          43,
+          38,
+          33,
+          26
+        ],
+        "hash": "bass_weCmZuDP"
+      }
+    ],
+    "defaultTrack": 2,
+    "popularTrack": 2,
+    "popularTrackGuitar": 1,
+    "popularTrackBass": 2
+  },
+  {
+    "songId": 33373,
+    "artistId": 186038,
+    "artist": "Does it offend you yeah?",
+    "title": "Let's Make Out",
+    "hasChords": false,
+    "hasPlayer": true,
+    "tracks": [
+      {
+        "instrumentId": 61,
+        "instrument": "Brass Section",
+        "views": 0,
+        "name": "ghost",
+        "tuning": [
+          64,
+          59,
+          55,
+          50,
+          45,
+          40
+        ],
+        "hash": "other_BO1XGRW9"
+      },
+      {
+        "instrumentId": 1024,
+        "instrument": "Drums",
+        "views": 0,
+        "name": "drum-鼓",
+        "hash": "drums_sN9RbBPM"
+      },
+      {
+        "instrumentId": 110,
+        "instrument": "Fiddle",
+        "views": 0,
+        "name": "键盘1",
+        "tuning": [
+          64,
+          59,
+          55,
+          50,
+          45,
+          40
+        ],
+        "hash": "other_BSLEfTh4"
+      },
+      {
+        "instrumentId": 37,
+        "instrument": "Slap Bass 2",
+        "views": 5,
+        "name": "bass-贝司",
+        "tuning": [
+          43,
+          38,
+          33,
+          28
+        ],
+        "hash": "bass_ZUIbxlkR"
+      },
+      {
+        "instrumentId": 81,
+        "instrument": "Lead 2 (sawtooth)",
+        "views": 0,
+        "name": "键盘2",
+        "tuning": [
+          64,
+          59,
+          55,
+          50,
+          45,
+          40
+        ],
+        "hash": "other_8IUGYsES"
+      },
+      {
+        "instrumentId": 124,
+        "instrument": "Telephone Ring",
+        "views": 0,
+        "name": "monster",
+        "tuning": [
+          64,
+          59,
+          55,
+          50,
+          45,
+          40
+        ],
+        "hash": "other_88RcS4Mm"
+      }
+    ],
+    "defaultTrack": 3,
+    "popularTrack": 3,
+    "popularTrackBass": 3,
+    "popularTrackDrum": 1
+  },
+  {
+    "songId": 69996,
+    "artistId": 7350,
+    "artist": "Does It Offend You Yeah",
+    "title": "We Are Rockstars",
+    "hasChords": false,
+    "hasPlayer": true,
+    "tracks": [
+      {
+        "instrumentId": 30,
+        "instrument": "Distortion Guitar",
+        "views": 4,
+        "name": "Guitar 1 (Standard)",
+        "tuning": [
+          64,
+          59,
+          55,
+          50,
+          45,
+          40
+        ],
+        "difficulty": 2,
+        "hash": "guitar_evnNzITn"
+      },
+      {
+        "instrumentId": 1024,
+        "instrument": "Drums",
+        "views": 2,
+        "name": "Percussion",
+        "hash": "drums_SvN01DYV"
+      },
+      {
+        "instrumentId": 34,
+        "instrument": "Electric Bass (pick)",
+        "views": 1,
+        "name": "Bass Guitar (Drop D)",
+        "tuning": [
+          64,
+          59,
+          55,
+          50,
+          45,
+          38
+        ],
+        "hash": "bass_6j4qV3vn"
+      },
+      {
+        "instrumentId": 126,
+        "instrument": "Applause",
+        "views": 0,
+        "name": "Track 4",
+        "tuning": [
+          64,
+          59,
+          55,
+          50,
+          45,
+          40
+        ],
+        "hash": "other_2qbyu8iz"
+      },
+      {
+        "instrumentId": 29,
+        "instrument": "Overdriven Guitar",
+        "views": 0,
+        "name": "Guitar 2 (Drop D)",
+        "tuning": [
+          64,
+          59,
+          55,
+          50,
+          45,
+          38
+        ],
+        "difficulty": 2,
+        "hash": "guitar_8ceg9Zc5"
+      },
+      {
+        "instrumentId": 81,
+        "instrument": "Lead 2 (sawtooth)",
+        "views": 0,
+        "name": "Track 6",
+        "tuning": [
+          64,
+          59,
+          55,
+          50,
+          45,
+          40
+        ],
+        "hash": "other_9qwOXGYt"
+      }
+    ],
+    "defaultTrack": 0,
+    "popularTrack": 0,
+    "popularTrackGuitar": 0,
+    "popularTrackBass": 2,
+    "popularTrackDrum": 1
+  },
+  {
+    "songId": 180984,
+    "artistId": 186060,
+    "artist": "Does It Offend You Yeah?",
+    "title": "Epic Last Song",
+    "hasChords": true,
+    "hasPlayer": false,
+    "tracks": [
+
+    ],
+    "defaultTrack": 0,
+    "popularTrack": 0
+  },
+  {
+    "songId": 180983,
+    "artistId": 7350,
+    "artist": "Does It Offend You Yeah",
+    "title": "Broken Arms",
+    "hasChords": true,
+    "hasPlayer": false,
+    "tracks": [
+
+    ],
+    "defaultTrack": 0,
+    "popularTrack": 0
+  }
+]

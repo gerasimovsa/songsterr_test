@@ -5,13 +5,19 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 import org.openqa.selenium.Cookie;
+import pages.ApiUtils;
 
 import static pages.ApiUtils.getAuthCookie;
-import static pages.ApiUtils.loginUser;
 
 public class TestBase {
 
+    ApiUtils api = new ApiUtils();
+
     static Cookie cookie;
+
+    public static Cookie getCookie() {
+        return cookie;
+    }
 
     @BeforeAll
     static void beforeAll() {
@@ -25,7 +31,7 @@ public class TestBase {
     @BeforeEach
     void beforeEach(TestInfo testInfo) {
         if (testInfo.getTags().contains("AuthRequired")) {
-            loginUser(cookie);
+            api.authorizeUser(cookie);
         }
     }
 }
