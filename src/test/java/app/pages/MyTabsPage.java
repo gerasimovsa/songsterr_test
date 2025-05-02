@@ -1,10 +1,10 @@
-package pages;
+package app.pages;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
-public class MyTabsPanel {
+public class MyTabsPage {
 
     public void removeFirstSongFromFavorites() {
         $("#song-options-button").click();

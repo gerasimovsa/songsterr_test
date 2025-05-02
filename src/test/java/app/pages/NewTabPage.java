@@ -1,4 +1,4 @@
-package pages;
+package app.pages;
 
 import java.io.File;
 
@@ -6,7 +6,7 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Condition.empty;
 import static com.codeborne.selenide.Selenide.$;
 
-public class NewTabPanel {
+public class NewTabPage {
 
 
     public void createNewBlankTab(String title, String artist) {

@@ -5,19 +5,15 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 import org.openqa.selenium.Cookie;
-import pages.ApiUtils;
+import api.ApiUtils;
 
-import static pages.ApiUtils.getAuthCookie;
+import static api.ApiUtils.getAuthCookie;
 
 public class TestBase {
 
     ApiUtils api = new ApiUtils();
 
-    static Cookie cookie;
-
-    public static Cookie getCookie() {
-        return cookie;
-    }
+    public static Cookie cookie;
 
     @BeforeAll
     static void beforeAll() {

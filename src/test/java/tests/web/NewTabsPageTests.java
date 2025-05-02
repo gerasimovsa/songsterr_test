@@ -1,7 +1,8 @@
-package tests;
+package tests.web;
 
 import org.junit.jupiter.api.Test;
-import pages.SongsterrApp;
+import app.SongsterrApp;
+import tests.TestBase;
 
 import static com.codeborne.selenide.Selenide.*;
 
@@ -15,13 +16,13 @@ public class NewTabsPageTests extends TestBase {
         open("/");
 
         app.toolbar.openSignInMenu();
-        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInMenu.submitSignIn();
+        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInPage.submitSignIn();
         app.toolbar.verifyAccountNameIsDisplayed("regular_s");
         app.toolbar.openNewTabPanel();
-        app.newTabPanel.createNewBlankTab("My Test Song", "Test Band");
+        app.newTabPage.createNewBlankTab("My Test Song", "Test Band");
 
-        app.newTabPanel.verifyNewTabPanelIsClosed();
+        app.newTabPage.verifyNewTabPanelIsClosed();
         app.songPage.verifySongPageHasHeaderTitle("My Test Song", "Test Band");
 
     }
@@ -32,14 +33,14 @@ public class NewTabsPageTests extends TestBase {
         open("/");
 
         app.toolbar.openSignInMenu();
-        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInMenu.submitSignIn();
+        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInPage.submitSignIn();
         app.toolbar.verifyAccountNameIsDisplayed("regular_s");
         app.toolbar.openNewTabPanel();
-        app.newTabPanel.createNewTabFromGuitarProTab
+        app.newTabPage.createNewTabFromGuitarProTab
                 ("Song from GP File", "Test GP Band", "src/test/resources/my_gp_file.gp3");
 
-        app.newTabPanel.verifyNewTabPanelIsClosed();
+        app.newTabPage.verifyNewTabPanelIsClosed();
         app.songPage.verifySongPageHasHeaderTitle("Song from GP File", "Test GP Band");
 
     }
@@ -50,14 +51,14 @@ public class NewTabsPageTests extends TestBase {
         open("/");
 
         app.toolbar.openSignInMenu();
-        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInMenu.submitSignIn();
+        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInPage.submitSignIn();
         app.toolbar.verifyAccountNameIsDisplayed("regular_s");
         app.toolbar.openNewTabPanel();
 
-        app.newTabPanel.createNewBlankTab("", "Test Band");
+        app.newTabPage.createNewBlankTab("", "Test Band");
 
-        app.newTabPanel.verifyBlankTitleFieldHasWarning();
+        app.newTabPage.verifyBlankTitleFieldHasWarning();
 
     }
 

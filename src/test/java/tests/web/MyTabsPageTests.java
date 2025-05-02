@@ -1,8 +1,9 @@
-package tests;
+package tests.web;
 
 
 import org.junit.jupiter.api.Test;
-import pages.SongsterrApp;
+import app.SongsterrApp;
+import tests.TestBase;
 
 
 import static com.codeborne.selenide.Selenide.open;
@@ -17,8 +18,8 @@ public class MyTabsPageTests extends TestBase {
         open("/");
 
         app.toolbar.openSignInMenu();
-        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInMenu.submitSignIn();
+        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInPage.submitSignIn();
         app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
         app.toolbar.openSearchPanel();
@@ -27,7 +28,7 @@ public class MyTabsPageTests extends TestBase {
         app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
 
-        app.myTabsPanel.verifyFavoritesTabHasSong("Happy Ending", "The Strokes");
+        app.myTabsPage.verifyFavoritesTabHasSong("Happy Ending", "The Strokes");
 
     }
 
@@ -37,8 +38,8 @@ public class MyTabsPageTests extends TestBase {
         open("/");
 
         app.toolbar.openSignInMenu();
-        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInMenu.submitSignIn();
+        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInPage.submitSignIn();
         app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
         app.toolbar.openSearchPanel();
@@ -47,9 +48,9 @@ public class MyTabsPageTests extends TestBase {
 
         app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
-        app.myTabsPanel.removeFirstSongFromFavorites();
+        app.myTabsPage.removeFirstSongFromFavorites();
 
-        app.myTabsPanel.verifyFavoritesTabIsEmpty();
+        app.myTabsPage.verifyFavoritesTabIsEmpty();
 
     }
 
@@ -59,18 +60,18 @@ public class MyTabsPageTests extends TestBase {
         open("/");
 
         app.toolbar.openSignInMenu();
-        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInMenu.submitSignIn();
+        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInPage.submitSignIn();
         app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
 
         app.toolbar.openNewTabPanel();
-        app.newTabPanel.createNewBlankTab("My Test Song", "Test Band");
-        app.newTabPanel.verifyNewTabPanelIsClosed();
+        app.newTabPage.createNewBlankTab("My Test Song", "Test Band");
+        app.newTabPage.verifyNewTabPanelIsClosed();
 
         app.toolbar.openMyTabsPanel();
 
-        app.myTabsPanel.openContributionsTab();
+        app.myTabsPage.openContributionsTab();
         app.searchPanel.openSearchResultByText("My Test Song");
         app.songPage.deleteContributedSong("My Test Song", "test band");
 
@@ -85,8 +86,8 @@ public class MyTabsPageTests extends TestBase {
         open("/");
 
         app.toolbar.openSignInMenu();
-        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInMenu.submitSignIn();
+        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInPage.submitSignIn();
         app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
         app.toolbar.openSearchPanel();
@@ -96,14 +97,14 @@ public class MyTabsPageTests extends TestBase {
         app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
 
-        app.myTabsPanel.openPlaylistsTab();
-        app.myTabsPanel.createPlaylist("MyTestPlaylist");
+        app.myTabsPage.openPlaylistsTab();
+        app.myTabsPage.createPlaylist("MyTestPlaylist");
 
-        app.myTabsPanel.openFavoritesTab();
-        app.myTabsPanel.addSongFromFavoritesToPlaylist("MyTestPlaylist");
+        app.myTabsPage.openFavoritesTab();
+        app.myTabsPage.addSongFromFavoritesToPlaylist("MyTestPlaylist");
 
-        app.myTabsPanel.openPlaylistsTab();
-        app.myTabsPanel.verifyPlaylistHasSong("The Strokes", "Happy Ending");
+        app.myTabsPage.openPlaylistsTab();
+        app.myTabsPage.verifyPlaylistHasSong("The Strokes", "Happy Ending");
 
     }
 
@@ -113,8 +114,8 @@ public class MyTabsPageTests extends TestBase {
         open("/");
 
         app.toolbar.openSignInMenu();
-        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInMenu.submitSignIn();
+        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInPage.submitSignIn();
         app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
         app.toolbar.openSearchPanel();
@@ -124,17 +125,17 @@ public class MyTabsPageTests extends TestBase {
         app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
 
-        app.myTabsPanel.openPlaylistsTab();
-        app.myTabsPanel.createPlaylist("MyTestPlaylist");
+        app.myTabsPage.openPlaylistsTab();
+        app.myTabsPage.createPlaylist("MyTestPlaylist");
 
-        app.myTabsPanel.openFavoritesTab();
-        app.myTabsPanel.addSongFromFavoritesToPlaylist("MyTestPlaylist");
+        app.myTabsPage.openFavoritesTab();
+        app.myTabsPage.addSongFromFavoritesToPlaylist("MyTestPlaylist");
 
-        app.myTabsPanel.openPlaylistsTab();
+        app.myTabsPage.openPlaylistsTab();
 
-        app.myTabsPanel.removeSongFromPlaylist();
+        app.myTabsPage.removeSongFromPlaylist();
 
-        app.myTabsPanel.verifyPlaylistIsEmpty();
+        app.myTabsPage.verifyPlaylistIsEmpty();
 
     }
 
@@ -144,8 +145,8 @@ public class MyTabsPageTests extends TestBase {
         open("/");
 
         app.toolbar.openSignInMenu();
-        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInMenu.submitSignIn();
+        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInPage.submitSignIn();
         app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
         app.toolbar.openSearchPanel();
@@ -155,13 +156,13 @@ public class MyTabsPageTests extends TestBase {
         app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
 
-        app.myTabsPanel.openPlaylistsTab();
-        app.myTabsPanel.createPlaylist("MyTestPlaylist");
+        app.myTabsPage.openPlaylistsTab();
+        app.myTabsPage.createPlaylist("MyTestPlaylist");
 
-        app.myTabsPanel.deletePlaylist("MyTestPlaylist");
+        app.myTabsPage.deletePlaylist("MyTestPlaylist");
 
 
-        app.myTabsPanel.verifyPlaylistsTabIsEmpty();
+        app.myTabsPage.verifyPlaylistsTabIsEmpty();
 
     }
 

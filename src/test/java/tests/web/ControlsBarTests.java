@@ -1,7 +1,8 @@
-package tests;
+package tests.web;
 
 import org.junit.jupiter.api.Test;
-import pages.SongsterrApp;
+import app.SongsterrApp;
+import tests.TestBase;
 
 import static com.codeborne.selenide.Selenide.*;
 
@@ -15,8 +16,8 @@ public class ControlsBarTests extends TestBase {
         open("/");
 
         app.toolbar.openSignInMenu();
-        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInMenu.submitSignIn();
+        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInPage.submitSignIn();
         app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
         app.toolbar.openSearchPanel();
@@ -35,8 +36,8 @@ public class ControlsBarTests extends TestBase {
         open("/");
 
         app.toolbar.openSignInMenu();
-        app.signInMenu.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInMenu.submitSignIn();
+        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
+        app.signInPage.submitSignIn();
         app.toolbar.verifyAccountNameIsDisplayed("regular_s");
 
         app.toolbar.openSearchPanel();

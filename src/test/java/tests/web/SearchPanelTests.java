@@ -1,7 +1,8 @@
-package tests;
+package tests.web;
 
 import org.junit.jupiter.api.Test;
-import pages.SongsterrApp;
+import app.SongsterrApp;
+import tests.TestBase;
 
 import static com.codeborne.selenide.Selenide.*;
 

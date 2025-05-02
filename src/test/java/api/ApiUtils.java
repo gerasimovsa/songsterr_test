@@ -1,4 +1,4 @@
-package pages;
+package api;
 
 
 import com.codeborne.selenide.Configuration;
@@ -20,7 +20,6 @@ import java.util.List;
 public class ApiUtils {
 
     String favoritesEndpoint = "/api/favorites";
-    String songsEndpoint = "/api/songs";
 
     public static Cookie getAuthCookie() {
         Configuration.headless = true;
@@ -45,17 +44,6 @@ public class ApiUtils {
         WebDriverRunner.getWebDriver().manage().addCookie(cookie);
     }
 
-    public void putSongToFavoritesByID(Cookie cookie, String songID) {
-        given()
-                .cookie(String.valueOf(cookie))
-                .when()
-                .put("https://www.songsterr.com" + favoritesEndpoint + "/" + songID)
-                .then()
-                .log().status()
-                .statusCode(201);
-
-    }
-
     public void clearFavorites(Cookie cookie) {
         Response response = given()
                 .cookie(String.valueOf(cookie))
@@ -76,17 +64,25 @@ public class ApiUtils {
         }
     }
 
-    public void getSongsList(Cookie cookie, String query, int size, int from) {
+    public void putSongToFavorites(Cookie cookie, String id) {
         given()
                 .cookie(String.valueOf(cookie))
-                .param("pattern", query)
-                .param("size", size)
-                .param("from", from)
                 .when()
-                .get("https://www.songsterr.com" + songsEndpoint)
+                .put("https://www.songsterr.com" + favoritesEndpoint + "/" + id)
                 .then()
-                .statusCode(200)
-                .log().body();
+                .log().status()
+                .statusCode(201);
+
+    }
+
+    public void deleteSongFromFavorites(Cookie cookie, String id) {
+        given()
+                .cookie(String.valueOf(cookie))
+                .when()
+                .delete("https://www.songsterr.com" + favoritesEndpoint + "/" + id)
+                .then()
+                .statusCode(201);
+
     }
 
     public void verifyFavoritesHasSong(Cookie cookie, String artist, String title) {
@@ -95,22 +91,24 @@ public class ApiUtils {
                 .when()
                 .get("https://www.songsterr.com" + favoritesEndpoint)
                 .then()
-                .log().all()
+                .log().body()
                 .statusCode(200)
                 .body("artist", hasItem(artist))
                 .body("title", hasItem(title));
     }
 
-    public void verify(int index, int index) {
+    public void verifyFavoritesIsEmpty(Cookie cookie) {
         given()
                 .cookie(String.valueOf(cookie))
                 .when()
                 .get("https://www.songsterr.com" + favoritesEndpoint)
                 .then()
-                .log().all()
+                .log().body()
                 .statusCode(200)
-                .body("artist", hasItem(artist))
-                .body("title", hasItem(title));
+                .body(empty());
     }
+
+
+
 
 }
