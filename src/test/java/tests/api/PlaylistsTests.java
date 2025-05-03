@@ -1,6 +1,7 @@
 package tests.api;
 
-import api.ApiUtils;
+import api.PlaylistsApi;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
@@ -8,32 +9,29 @@ import tests.TestBase;
 
 public class PlaylistsTests extends TestBase {
 
-    ApiUtils api = new ApiUtils();
+    PlaylistsApi playlistsApi = new PlaylistsApi();
 
     @Test
     @Tag("AuthRequired")
-    void addSongToFavoritesApiTest() {
+    void createNewPlaylistTest() throws JsonProcessingException {
 
-        String artist = "Red Hot Chili Peppers";
-        String title = "Can't Stop";
-        String songID = "12";
+        String playlistJSON = "{\"name\":\"TestPlaylist\"}";
 
-        api.clearFavorites(cookie);
-        api.putSongToFavorites(cookie, songID);
-
-        api.verifyFavoritesHasSong(cookie, artist, title);
+        String playlistID = playlistsApi.postNewPlaylistAndGetId(cookie, playlistJSON);
+        int numberID = Integer.parseInt(playlistID);
+        playlistsApi.getPlaylistByID(cookie, numberID, playlistJSON);
     }
 
     @Test
     @Tag("AuthRequired")
-    void removeSongFromFavoritesApiTest() {
-        String songID = "12";
+    void removePlaylistTest() throws JsonProcessingException {
 
-        api.clearFavorites(cookie);
-        api.putSongToFavorites(cookie, songID);
-        api.deleteSongFromFavorites(cookie, songID);
+        String playlistJSON = "{\"name\":\"TestPlaylist\"}";
 
-        api.verifyFavoritesIsEmpty(cookie);
+        String playlistID = playlistsApi.postNewPlaylistAndGetId(cookie, playlistJSON);
+        int numberID = Integer.parseInt(playlistID);
+        playlistsApi.deletePlaylistByID(cookie, numberID);
+        playlistsApi.getPlaylistNotFound(cookie, numberID);
     }
 
 }

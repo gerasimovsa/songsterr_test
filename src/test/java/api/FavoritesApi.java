@@ -1,12 +1,6 @@
 package api;
 
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
-
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
@@ -17,32 +11,9 @@ import org.openqa.selenium.Cookie;
 import java.util.List;
 
 
-public class ApiUtils {
+public class FavoritesApi {
 
     String favoritesEndpoint = "/api/favorites";
-
-    public static Cookie getAuthCookie() {
-        Configuration.headless = true;
-        open("/");
-        $("#menu-signin").shouldBe(visible).click();
-        $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
-        $("[name='password']").shouldBe(empty).setValue("mypass123");
-        Selenide.sleep(2000);
-        $("#signin").click();
-        $("#menu-account").lastChild().shouldHave(text("regularS"));
-        Cookie cookie = WebDriverRunner.getWebDriver().manage().getCookieNamed("SongsterrT");
-        closeWebDriver();
-        if (cookie != null) {
-            return cookie;
-        } else {
-            throw new RuntimeException("SongsterrT auth cookie is not extracted");
-        }
-    }
-
-    public void authorizeUser(Cookie cookie) {
-        open("/");
-        WebDriverRunner.getWebDriver().manage().addCookie(cookie);
-    }
 
     public void clearFavorites(Cookie cookie) {
         Response response = given()
@@ -107,8 +78,4 @@ public class ApiUtils {
                 .statusCode(200)
                 .body(empty());
     }
-
-
-
-
 }

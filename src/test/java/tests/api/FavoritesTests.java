@@ -1,14 +1,14 @@
 package tests.api;
 
+import api.FavoritesApi;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import api.ApiUtils;
 import tests.TestBase;
 
 
 public class FavoritesTests extends TestBase {
 
-    ApiUtils api = new ApiUtils();
+    FavoritesApi favoritesApi = new FavoritesApi();
 
     @Test
     @Tag("AuthRequired")
@@ -18,10 +18,10 @@ public class FavoritesTests extends TestBase {
         String title = "Can't Stop";
         String songID = "12";
 
-        api.clearFavorites(cookie);
-        api.putSongToFavorites(cookie, songID);
+        favoritesApi.clearFavorites(cookie);
+        favoritesApi.putSongToFavorites(cookie, songID);
 
-        api.verifyFavoritesHasSong(cookie, artist, title);
+        favoritesApi.verifyFavoritesHasSong(cookie, artist, title);
     }
 
     @Test
@@ -29,26 +29,21 @@ public class FavoritesTests extends TestBase {
     void removeSongFromFavoritesApiTest() {
         String songID = "12";
 
-        api.clearFavorites(cookie);
-        api.putSongToFavorites(cookie, songID);
-        api.deleteSongFromFavorites(cookie, songID);
+        favoritesApi.clearFavorites(cookie);
+        favoritesApi.putSongToFavorites(cookie, songID);
+        favoritesApi.deleteSongFromFavorites(cookie, songID);
 
-        api.verifyFavoritesIsEmpty(cookie);
+        favoritesApi.verifyFavoritesIsEmpty(cookie);
     }
 
 }
 
 
 
-//Search song
-//Get Song
-//Create playlist
-//Delete playlist
-//Delete song
-//Get billing settigns
+//Get Song/unsuccessful
+//Get billing settings
 //Change name
-//Get metadata
-//
+//mb delete track
 
 
 

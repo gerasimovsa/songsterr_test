@@ -5,13 +5,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 import org.openqa.selenium.Cookie;
-import api.ApiUtils;
+import utils.AuthUtils;
 
-import static api.ApiUtils.getAuthCookie;
+import static utils.AuthUtils.getAuthCookie;
 
 public class TestBase {
 
-    ApiUtils api = new ApiUtils();
+    AuthUtils api = new AuthUtils();
 
     public static Cookie cookie;
 
