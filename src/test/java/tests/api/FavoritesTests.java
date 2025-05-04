@@ -40,10 +40,4 @@ public class FavoritesTests extends TestBase {
 
 
 
-//Get Song/unsuccessful
-//Get billing settings
-//Change name
-//mb delete track
-
-
 

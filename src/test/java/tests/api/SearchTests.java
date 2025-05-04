@@ -8,7 +8,7 @@ import tests.TestBase;
 
 public class SearchTests extends TestBase {
 
-    SearchApi searchApiApi = new SearchApi();
+    SearchApi searchApi = new SearchApi();
 
     @Test
     @Tag("AuthRequired")
@@ -17,7 +17,7 @@ public class SearchTests extends TestBase {
         String artist = "Red Hot Chili Peppers";
         int artistID = 12;
 
-        searchApiApi.getSearchResultsByArtist(cookie, artist, artistID, "3");
+        searchApi.getSearchResultsByArtist(cookie, artist, artistID, "3");
 
     }
 
@@ -27,7 +27,7 @@ public class SearchTests extends TestBase {
 
         String artist = "TakoiPesniNet";
 
-        searchApiApi.getNoSearchResults(cookie, artist);
+        searchApi.getNoSearchResults(cookie, artist);
 
     }
 

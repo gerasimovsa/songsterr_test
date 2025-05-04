@@ -15,6 +15,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'com.codeborne:selenide:7.6.0'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.3'
+    compileOnly 'org.projectlombok:lombok:1.18.36'
 }
 
 
