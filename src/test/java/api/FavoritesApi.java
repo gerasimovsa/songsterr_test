@@ -2,10 +2,10 @@ package api;
 
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
 
 
 import io.restassured.response.Response;
+import models.SongModel;
 import org.openqa.selenium.Cookie;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class FavoritesApi {
         }
     }
 
-    public void putSongToFavorites(Cookie cookie, String id) {
+    public void putSongToFavorites(Cookie cookie, Integer id) {
         given()
                 .cookie(String.valueOf(cookie))
                 .when()
@@ -46,7 +46,7 @@ public class FavoritesApi {
 
     }
 
-    public void deleteSongFromFavorites(Cookie cookie, String id) {
+    public void deleteSongFromFavorites(Cookie cookie, Integer id) {
         given()
                 .cookie(String.valueOf(cookie))
                 .when()
@@ -56,26 +56,25 @@ public class FavoritesApi {
 
     }
 
-    public void verifyFavoritesHasSong(Cookie cookie, String artist, String title) {
-        given()
+    public SongModel getFavoriteSongs(Cookie cookie) {
+        return given()
                 .cookie(String.valueOf(cookie))
                 .when()
                 .get("https://www.songsterr.com" + favoritesEndpoint)
                 .then()
-                .log().body()
+                .log().all()
                 .statusCode(200)
-                .body("artist", hasItem(artist))
-                .body("title", hasItem(title));
+                .extract().jsonPath().getList(".", SongModel.class).get(0);
     }
 
-    public void verifyFavoritesIsEmpty(Cookie cookie) {
-        given()
+    public String getEmptyFavorites(Cookie cookie) {
+        return given()
                 .cookie(String.valueOf(cookie))
                 .when()
                 .get("https://www.songsterr.com" + favoritesEndpoint)
                 .then()
                 .log().body()
                 .statusCode(200)
-                .body(empty());
+                .extract().body().asString();
     }
 }

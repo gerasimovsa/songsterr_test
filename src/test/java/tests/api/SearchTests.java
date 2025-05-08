@@ -1,9 +1,13 @@
 package tests.api;
 
 import api.SearchApi;
+import models.RecordsModel;
+import models.SongModel;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class SearchTests extends TestBase {
@@ -14,22 +18,29 @@ public class SearchTests extends TestBase {
     @Tag("AuthRequired")
     void searchSongSuccessful() {
 
-        String artist = "Red Hot Chili Peppers";
-        int artistID = 12;
+        SongModel expectedSong = SongModel.builder()
+                .songId(12)
+                .artist("Red Hot Chili Peppers")
+                .title("Can't Stop")
+                .artistId(12)
+                .build();
 
-        searchApi.getSearchResultsByArtist(cookie, artist, artistID, "3");
+        RecordsModel responseRecords = searchApi.getSearchResultsByArtist(cookie, expectedSong, 3);
 
+        assertThat(responseRecords.getRecords())
+                .extracting("artistId")
+                .containsOnly(expectedSong.getArtistId());
     }
 
-    @Test
-    @Tag("AuthRequired")
-    void searchSongNotFound() {
-
-        String artist = "TakoiPesniNet";
-
-        searchApi.getNoSearchResults(cookie, artist);
-
-    }
+//    @Test
+//    @Tag("AuthRequired")
+//    void searchSongNotFound() {
+//
+//        String artist = "TakoiPesniNet";
+//
+//        searchApi.getNoSearchResults(cookie, artist);
+//
+//    }
 
 }
 

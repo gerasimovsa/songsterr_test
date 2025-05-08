@@ -1,12 +1,11 @@
 package api;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
 
 import static org.hamcrest.Matchers.*;
 
+import models.PlaylistModel;
 import org.openqa.selenium.Cookie;
 
 
@@ -17,13 +16,11 @@ public class PlaylistsApi {
 
     String playlistsEndpoint = "/api/setlist";
 
-    public String postNewPlaylistAndGetId(Cookie cookie, String playlistJSON) throws JsonProcessingException {
-        String name = new ObjectMapper().readTree(playlistJSON).get("name").asText();
-
+    public PlaylistModel postNewPlaylist(Cookie cookie, PlaylistModel playlist) {
         return given()
                 .cookie(String.valueOf(cookie))
                 .contentType(ContentType.JSON)
-                .body(playlistJSON)
+                .body(playlist)
                 .log().all()
                 .when()
                 .post("https://www.songsterr.com" + playlistsEndpoint)
@@ -31,14 +28,11 @@ public class PlaylistsApi {
                 .log().all()
                 .statusCode(201)
                 .body("id", not(empty()))
-                .body("name", is(name))
-                .extract().path("id").toString();
+                .extract().as(PlaylistModel.class);
     }
 
-    public void getPlaylistByID(Cookie cookie, Integer playlistID, String playlistJSON) throws JsonProcessingException {
-        String name = new ObjectMapper().readTree(playlistJSON).get("name").asText();
-
-        given()
+    public PlaylistModel getPlaylistByID(Cookie cookie, Integer playlistID) {
+        return given()
                 .cookie(String.valueOf(cookie))
                 .log().all()
                 .when()
@@ -46,12 +40,11 @@ public class PlaylistsApi {
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("id", is(playlistID))
-                .body("name", is(name));
+                .extract().as(PlaylistModel.class);
 
     }
 
-    public void deletePlaylistByID(Cookie cookie, int playlistID) {
+    public void deletePlaylistByID(Cookie cookie, Integer playlistID) {
         given()
                 .cookie(String.valueOf(cookie))
                 .log().all()
@@ -62,15 +55,16 @@ public class PlaylistsApi {
                 .statusCode(201);
     }
 
-    public void getPlaylistNotFound(Cookie cookie, int playlistID) {
-        given()
+    public String getPlaylistNotFound(Cookie cookie, Integer playlistID) {
+        return given()
                 .cookie(String.valueOf(cookie))
                 .log().all()
                 .when()
                 .delete("https://www.songsterr.com" + playlistsEndpoint + "/" + playlistID)
                 .then()
                 .log().all()
-                .statusCode(404);
+                .statusCode(404)
+                .extract().body().asString();
     }
 
 }
