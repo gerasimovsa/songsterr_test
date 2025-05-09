@@ -1,9 +1,8 @@
 package api;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
+import models.ProfileModel;
 import org.openqa.selenium.Cookie;
 
 import static io.restassured.RestAssured.given;
@@ -14,35 +13,33 @@ public class AuthApi {
 
     String authChangeEndpoint = "/auth/change";
 
-    public void postChangesToProfile(Cookie cookie, String payload) throws JsonProcessingException {
-        String name = new ObjectMapper().readTree(payload).get("name").asText();
-        String email = new ObjectMapper().readTree(payload).get("email").asText();
+    public void postChangesToProfile(Cookie cookie, ProfileModel profile) {
 
         given()
                 .cookie(String.valueOf(cookie))
                 .log().all()
                 .contentType(ContentType.JSON)
-                .body(payload)
+                .body(profile)
                 .when()
                 .post("https://www.songsterr.com" + authChangeEndpoint)
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("name", is(name))
-                .body("email", is(email));
+                .body("name", is(profile.getName()))
+                .body("email", is(profile.getEmail()));
     }
 
-    public void postChangesWithInvalidEmail(Cookie cookie, String payload) {
-        given()
+    public String postChangesWithInvalidEmail(Cookie cookie, ProfileModel profile) {
+        return given()
                 .cookie(String.valueOf(cookie))
                 .log().all()
                 .contentType(ContentType.JSON)
-                .body(payload)
+                .body(profile)
                 .when()
                 .post("https://www.songsterr.com" + authChangeEndpoint)
                 .then()
                 .log().all()
                 .statusCode(400)
-                .body("error", is("Please fix the errors and try again"));
+                .extract().body().asString();
     }
 }

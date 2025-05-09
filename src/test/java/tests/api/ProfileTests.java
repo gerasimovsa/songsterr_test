@@ -2,10 +2,12 @@ package tests.api;
 
 import api.AuthApi;
 import api.ProfileApi;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import models.ProfileModel;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class ProfileTests extends TestBase {
@@ -15,12 +17,18 @@ public class ProfileTests extends TestBase {
 
     @Test
     @Tag("AuthRequired")
-    void changeProfileData() throws JsonProcessingException {
+    void changeProfileData() {
 
-        String profileJSON = "{\"name\":\"regularSereja\",\"email\":\"gerasimovsa201@gmail.com\"}";
+        ProfileModel expectedProfile = ProfileModel.builder()
+                .name("regularSereja")
+                .email("gerasimovsa201@gmail.com")
+                .build();
 
-        authApi.postChangesToProfile(cookie, profileJSON);
-        profileApi.getLoggedInProfile(cookie, profileJSON);
+
+        authApi.postChangesToProfile(cookie, expectedProfile);
+        ProfileModel responseProfile = profileApi.getLoggedInProfile(cookie);
+
+        assertThat(expectedProfile).isEqualTo(responseProfile);
 
     }
 
@@ -28,12 +36,15 @@ public class ProfileTests extends TestBase {
     @Tag("AuthRequired")
     void changeProfileDataInvalidEmail() {
 
-        String profileJSON = "{\"name\":\"regularSereja\",\"email\":\"gerasimovsa\"}";
+        ProfileModel invalidEmailProfile = ProfileModel.builder()
+                .name("regularSereja")
+                .email("gerasimovsa")
+                .build();
 
-        authApi.postChangesWithInvalidEmail(cookie, profileJSON);
+        String response = authApi.postChangesWithInvalidEmail(cookie, invalidEmailProfile);
 
+        assertThat(response).contains("error", "Please fix the errors and try again");
     }
-
 
 }
 

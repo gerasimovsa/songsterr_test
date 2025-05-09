@@ -31,7 +31,8 @@ public class FavoritesTests extends TestBase {
 
         assertThat(responseSongs)
                 .usingRecursiveComparison()
-                .comparingOnlyFields("songId", "artist", "title");
+                .comparingOnlyFields("songId", "artist", "title")
+                .isEqualTo(expectedSong);
     }
 
     @Test

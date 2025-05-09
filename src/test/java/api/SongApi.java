@@ -1,51 +1,46 @@
 package api;
 
 
+import models.SongModel;
 import org.openqa.selenium.Cookie;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
 
 
 public class SongApi {
 
     String songEndpoint = "/api/song";
 
-    public void getSongById(Cookie cookie, int id, String artist, String title) {
-        String songID = String.valueOf(id);
-        given()
+    public SongModel getSongById(Cookie cookie, SongModel song) {
+        return given()
             .cookie(String.valueOf(cookie))
             .log().all()
             .when()
-            .get("https://www.songsterr.com" + songEndpoint + "/" + songID)
+            .get("https://www.songsterr.com" + songEndpoint + "/" + song.getSongId())
             .then()
             .log().all()
             .statusCode(200)
-            .body("songId", is(id))
-            .body("artist", is(artist))
-            .body("title", is(title));
+            .extract().as(SongModel.class);
     }
 
-    public void getSongByIdNotFound(Cookie cookie, int id) {
-        String songID = String.valueOf(id);
-        given()
+    public String getSongByIdNotFound(Cookie cookie, SongModel song) {
+        return given()
                 .cookie(String.valueOf(cookie))
                 .log().all()
                 .when()
-                .get("https://www.songsterr.com" + songEndpoint + "/" + songID)
+                .get("https://www.songsterr.com" + songEndpoint + "/" + song.getSongId())
                 .then()
                 .log().all()
                 .statusCode(404)
-                .body("error", is("Not Found"));
+                .extract().body().asString();
     }
 
-    public void deleteSongById(Cookie cookie, int id) {
-        String songID = String.valueOf(id);
+    public void deleteSongById(Cookie cookie, SongModel song) {
         given()
                 .cookie(String.valueOf(cookie))
                 .log().all()
                 .when()
-                .delete("https://www.songsterr.com" + songEndpoint + "/" + songID)
+                .delete("https://www.songsterr.com" + songEndpoint + "/" + song.getSongId())
                 .then()
                 .log().all()
                 .statusCode(204);

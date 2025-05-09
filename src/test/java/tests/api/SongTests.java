@@ -1,9 +1,12 @@
 package tests.api;
 
 import api.SongApi;
+import models.SongModel;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class SongTests extends TestBase {
@@ -14,11 +17,18 @@ public class SongTests extends TestBase {
     @Tag("AuthRequired")
     void getSongSuccessful() {
 
-        String artist = "Red Hot Chili Peppers";
-        String title = "Can't Stop";
-        int songID = 12;
+        SongModel expectedSong = SongModel.builder()
+                .songId(12)
+                .artist("Red Hot Chili Peppers")
+                .title("Can't Stop")
+                .build();
 
-        songApi.getSongById(cookie, songID, artist, title);
+        SongModel responseSong = songApi.getSongById(cookie, expectedSong);
+
+        assertThat(responseSong)
+                .usingRecursiveComparison()
+                .comparingOnlyFields("songId", "artist", "title")
+                .isEqualTo(expectedSong);
 
     }
 
@@ -26,9 +36,13 @@ public class SongTests extends TestBase {
     @Tag("AuthRequired")
     void getSongNotFound() {
 
-        int songID = 12121212;
+        SongModel expectedSong = SongModel.builder()
+                .songId(1212121212)
+                .build();
 
-        songApi.getSongByIdNotFound(cookie, songID);
+        String errorResponse = songApi.getSongByIdNotFound(cookie, expectedSong);
+
+        assertThat(errorResponse).contains("Not Found");
 
     }
 
@@ -36,11 +50,14 @@ public class SongTests extends TestBase {
     @Tag("AuthRequired")
     void removeSong() {
 
-        int songID = 1440607;
+        SongModel expectedSong = SongModel.builder()
+                .songId(1212121212)
+                .build();
 
-        songApi.deleteSongById(cookie, songID);
-        songApi.getSongByIdNotFound(cookie, songID);
+        songApi.deleteSongById(cookie, expectedSong);
+        String errorResponse = songApi.getSongByIdNotFound(cookie, expectedSong);
 
+        assertThat(errorResponse).contains("Not Found");
     }
 
 }

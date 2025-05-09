@@ -19,9 +19,7 @@ public class SearchTests extends TestBase {
     void searchSongSuccessful() {
 
         SongModel expectedSong = SongModel.builder()
-                .songId(12)
                 .artist("Red Hot Chili Peppers")
-                .title("Can't Stop")
                 .artistId(12)
                 .build();
 
@@ -32,15 +30,19 @@ public class SearchTests extends TestBase {
                 .containsOnly(expectedSong.getArtistId());
     }
 
-//    @Test
-//    @Tag("AuthRequired")
-//    void searchSongNotFound() {
-//
-//        String artist = "TakoiPesniNet";
-//
-//        searchApi.getNoSearchResults(cookie, artist);
-//
-//    }
+    @Test
+    @Tag("AuthRequired")
+    void searchSongNotFound() {
+
+        SongModel expectedSong = SongModel.builder()
+                .artist("ThereIsNoSuchArtist")
+                .artistId(12)
+                .build();
+
+        RecordsModel responseRecords = searchApi.getSearchResultsByArtist(cookie, expectedSong, 3);
+
+        assertThat(responseRecords.getRecords()).isEmpty();
+    }
 
 }
 
