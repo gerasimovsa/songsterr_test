@@ -12,7 +12,7 @@ public class PlaylistsApi {
 
     public PlaylistModel postNewPlaylist(Cookie cookie, PlaylistModel playlist) {
         return given()
-                .spec(PlaylistsRequest)
+                .spec(playlistsRequest)
                 .cookie(String.valueOf(cookie))
                 .body(playlist)
                 .when()
@@ -24,7 +24,7 @@ public class PlaylistsApi {
 
     public PlaylistModel getPlaylistByID(Cookie cookie, Integer playlistID) {
         return given()
-                .spec(PlaylistsRequest)
+                .spec(playlistsRequest)
                 .cookie(String.valueOf(cookie))
                 .when()
                 .get("/" + playlistID)
@@ -36,7 +36,7 @@ public class PlaylistsApi {
 
     public void deletePlaylistByID(Cookie cookie, Integer playlistID) {
         given()
-                .spec(PlaylistsRequestNoBody)
+                .spec(playlistsRequestNoBody)
                 .cookie(String.valueOf(cookie))
                 .when()
                 .delete("/" + playlistID)
@@ -46,7 +46,7 @@ public class PlaylistsApi {
 
     public String getPlaylistNotFound(Cookie cookie, Integer playlistID) {
         return given()
-                .spec(PlaylistsRequestNoBody)
+                .spec(playlistsRequestNoBody)
                 .cookie(String.valueOf(cookie))
                 .when()
                 .delete("/" + playlistID)

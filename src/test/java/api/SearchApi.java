@@ -6,23 +6,22 @@ import models.SongModel;
 import org.openqa.selenium.Cookie;
 
 import static io.restassured.RestAssured.given;
+import static specs.SearchSpec.searchRequest;
+import static specs.SearchSpec.searchResponse;
 
 
 public class SearchApi {
 
-    String searchEndpoint = "/api/search";
-
     public RecordsModel getSearchResultsByArtist(Cookie cookie, SongModel song, Integer numberOfResults) {
         return given()
+                .spec(searchRequest)
                 .cookie(String.valueOf(cookie))
-                .log().all()
                 .queryParam("pattern", song.getArtist())
                 .queryParam("size", String.valueOf(numberOfResults))
                 .when()
-                .get("https://www.songsterr.com" + searchEndpoint)
+                .get()
                 .then()
-                .log().all()
-                .statusCode(200)
+                .spec(searchResponse)
                 .extract().as(RecordsModel.class);
     }
 

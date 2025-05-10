@@ -16,13 +16,13 @@ public class PlaylistsSpec {
     final static String basePath = "/api/setlist";
 
 
-    public static RequestSpecification PlaylistsRequest = with()
+    public static RequestSpecification playlistsRequest = with()
             .contentType(ContentType.JSON)
             .baseUri(baseUrl)
             .basePath(basePath)
             .log().all();
 
-    public static RequestSpecification PlaylistsRequestNoBody = with()
+    public static RequestSpecification playlistsRequestNoBody = with()
             .baseUri(baseUrl)
             .basePath(basePath)
             .log().all();
@@ -49,8 +49,6 @@ public class PlaylistsSpec {
             .expectStatusCode(404)
             .expectBody(not(empty()))
             .build();
-
-
 
 }
 

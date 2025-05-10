@@ -5,21 +5,20 @@ import models.ProfileModel;
 import org.openqa.selenium.Cookie;
 
 import static io.restassured.RestAssured.given;
+import static specs.ProfileSpec.profileRequest;
+import static specs.ProfileSpec.profileResponse;
 
 
 public class ProfileApi {
 
-    String profileEndpoint = "/auth/profile";
-
     public ProfileModel getLoggedInProfile(Cookie cookie) {
         return given()
+                .spec(profileRequest)
                 .cookie(String.valueOf(cookie))
-                .log().all()
                 .when()
-                .get("https://www.songsterr.com" + profileEndpoint)
+                .get()
                 .then()
-                .log().all()
-                .statusCode(200)
+                .spec(profileResponse)
                 .extract().as(ProfileModel.class);
     }
 

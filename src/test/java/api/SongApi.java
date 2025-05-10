@@ -5,44 +5,40 @@ import models.SongModel;
 import org.openqa.selenium.Cookie;
 
 import static io.restassured.RestAssured.given;
+import static specs.SongSpec.*;
 
 
 public class SongApi {
 
-    String songEndpoint = "/api/song";
-
     public SongModel getSongById(Cookie cookie, SongModel song) {
         return given()
-            .cookie(String.valueOf(cookie))
-            .log().all()
-            .when()
-            .get("https://www.songsterr.com" + songEndpoint + "/" + song.getSongId())
-            .then()
-            .log().all()
-            .statusCode(200)
-            .extract().as(SongModel.class);
+                .spec(songRequest)
+                .cookie(String.valueOf(cookie))
+                .when()
+                .get("/" + song.getSongId())
+                .then()
+                .spec(songResponse)
+                .extract().as(SongModel.class);
     }
 
     public String getSongByIdNotFound(Cookie cookie, SongModel song) {
         return given()
+                .spec(songRequest)
                 .cookie(String.valueOf(cookie))
-                .log().all()
                 .when()
-                .get("https://www.songsterr.com" + songEndpoint + "/" + song.getSongId())
+                .get("/" + song.getSongId())
                 .then()
-                .log().all()
-                .statusCode(404)
+                .spec(songNotFoundResponse)
                 .extract().body().asString();
     }
 
     public void deleteSongById(Cookie cookie, SongModel song) {
         given()
+                .spec(songRequest)
                 .cookie(String.valueOf(cookie))
-                .log().all()
                 .when()
-                .delete("https://www.songsterr.com" + songEndpoint + "/" + song.getSongId())
+                .delete("/" + song.getSongId())
                 .then()
-                .log().all()
                 .statusCode(204);
     }
 
