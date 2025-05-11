@@ -1,5 +1,7 @@
 package tests.web;
 
+import models.SongModel;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import app.SongsterrApp;
 import tests.TestBase;
@@ -11,52 +13,55 @@ public class NewTabsPageTests extends TestBase {
     SongsterrApp app = new SongsterrApp();
 
     @Test
+    @Tag("AuthRequired")
     void createNewBlankSong() {
+
+        SongModel newSong = SongModel.builder()
+                .artist("Test Band")
+                .title("My Test Song")
+                .build();
 
         open("/");
 
-        app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInPage.submitSignIn();
-        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
         app.toolbar.openNewTabPanel();
-        app.newTabPage.createNewBlankTab("My Test Song", "Test Band");
+        app.newTabPage.createNewBlankTab(newSong.getTitle(), newSong.getArtist());
 
         app.newTabPage.verifyNewTabPanelIsClosed();
-        app.songPage.verifySongPageHasHeaderTitle("My Test Song", "Test Band");
+        app.songPage.verifySongPageHasHeaderTitle(newSong.getTitle(), newSong.getArtist());
 
     }
 
     @Test
     void createNewSongFromGPFile() {
 
+        SongModel newSong = SongModel.builder()
+                .artist("Test GP Band")
+                .title("Song from GP File")
+                .build();
+
         open("/");
 
-        app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInPage.submitSignIn();
-        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
         app.toolbar.openNewTabPanel();
         app.newTabPage.createNewTabFromGuitarProTab
-                ("Song from GP File", "Test GP Band", "src/test/resources/my_gp_file.gp3");
+                (newSong.getTitle(), newSong.getArtist(), "src/test/resources/my_gp_file.gp3");
 
         app.newTabPage.verifyNewTabPanelIsClosed();
-        app.songPage.verifySongPageHasHeaderTitle("Song from GP File", "Test GP Band");
+        app.songPage.verifySongPageHasHeaderTitle(newSong.getTitle(), newSong.getArtist());
 
     }
 
     @Test
     void cannotCreateSongWithBlankTitle() {
 
+        SongModel newSong = SongModel.builder()
+                .artist("Test Band")
+                .title(" ")
+                .build();
+
         open("/");
 
-        app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInPage.submitSignIn();
-        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
         app.toolbar.openNewTabPanel();
-
-        app.newTabPage.createNewBlankTab("", "Test Band");
+        app.newTabPage.createNewBlankTab(newSong.getTitle(), newSong.getArtist());
 
         app.newTabPage.verifyBlankTitleFieldHasWarning();
 

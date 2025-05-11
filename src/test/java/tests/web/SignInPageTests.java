@@ -1,5 +1,7 @@
 package tests.web;
 
+import models.ProfileModel;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import app.SongsterrApp;
 import tests.TestBase;
@@ -14,44 +16,57 @@ public class SignInPageTests extends TestBase {
     @Test
     void registerUser() {
 
-        open("https://songsterr.com");
+        ProfileModel newProfile = ProfileModel.builder()
+                .name("John Doe")
+                .email("johndoe213@gmail.com")
+                .password("myPass123")
+                .build();
+
+        open("/");
 
         app.toolbar.openSignInMenu();
         app.signInPage.openSignUpMenu();
-        app.signInPage.fillRegistrationUserData("John Doe", "johndoe213800@gmail.com", "myPass123");
+        app.signInPage.fillRegistrationUserData(
+                newProfile.getName(),
+                newProfile.getEmail(),
+                newProfile.getPassword()
+        );
         app.signInPage.submitSignUp();
-        app.toolbar.openAccountMenu();
 
+        app.toolbar.openAccountMenu();
         app.accountPage.verifyAccountMenuOpened();
-        app.toolbar.verifyAccountNameIsDisplayed("John Doe");
-        app.accountPage.verifyAccountMenuHasUserInfo("John Doe", "johndoe213800@gmail.com");
+        app.toolbar.verifyAccountNameIsDisplayed(newProfile.getName());
+        app.accountPage.verifyAccountMenuHasUserInfo(newProfile.getName(), newProfile.getEmail());
 
     }
 
     @Test
     void signInUser() {
 
-        open("https://songsterr.com");
+        ProfileModel newProfile = ProfileModel.builder()
+                .name("regularS")
+                .email("gerasimovsa20@gmail.com")
+                .password("mypass123")
+                .build();
+
+        open("/");
 
         app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("johndoe213800@gmail.com", "myPass123");
+        app.signInPage.fillSignInUserData(newProfile.getEmail(), newProfile.getPassword());
         app.signInPage.submitSignIn();
         app.toolbar.openAccountMenu();
 
         app.accountPage.verifyAccountMenuOpened();
-        app.toolbar.verifyAccountNameIsDisplayed("John Doe");
-        app.accountPage.verifyAccountMenuHasUserInfo("John Doe", "johndoe213800@gmail.com");
+        app.toolbar.verifyAccountNameIsDisplayed(newProfile.getName());
+        app.accountPage.verifyAccountMenuHasUserInfo(newProfile.getName(), newProfile.getEmail());
 
     }
 
     @Test
+    @Tag("AuthRequired")
     void signOutUser() {
 
-        open("https://songsterr.com");
 
-        app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("johndoe213800@gmail.com", "myPass123");
-        app.signInPage.submitSignIn();
         app.toolbar.openAccountMenu();
         app.accountPage.signOutUser();
 
@@ -61,34 +76,35 @@ public class SignInPageTests extends TestBase {
     }
 
     @Test
+    @Tag("AuthRequired")
     void editUserInfo() {
 
-        open("https://songsterr.com");
+        ProfileModel newProfile = ProfileModel.builder()
+                .name("TestName")
+                .email("test_email@gmail.com")
+                .build();
 
-        app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("johndoe213800@gmail.com", "myPass123");
-        app.signInPage.submitSignIn();
         app.toolbar.openAccountMenu();
-        app.accountPage.editAndSaveUserInfo("Joe Deer", "joedeer213800@gmail.com");
+        app.accountPage.editAndSaveUserInfo(newProfile.getName(), newProfile.getEmail());
         app.toolbar.closeCurrentPanel();
         app.toolbar.openAccountMenu();
 
         app.accountPage.verifyAccountMenuOpened();
-        app.toolbar.verifyAccountNameIsDisplayed("Joe Deer");
-        app.accountPage.verifyAccountMenuHasUserInfo("Joe Deer", "joedeer213800@gmail.com");
+        app.toolbar.verifyAccountNameIsDisplayed(newProfile.getName());
+        app.accountPage.verifyAccountMenuHasUserInfo(newProfile.getName(), newProfile.getEmail());
 
     }
 
     @Test
+    @Tag("AuthRequired")
     void changeUserPassword() {
 
-        open("https://songsterr.com");
+        ProfileModel newProfile = ProfileModel.builder()
+                .password("myPass321")
+                .build();
 
-        app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("johndoe213800@gmail.com", "myPass123");
-        app.signInPage.submitSignIn();
         app.toolbar.openAccountMenu();
-        app.accountPage.setNewPassword("myPass321");
+        app.accountPage.setNewPassword(newProfile.getPassword());
 
         app.accountPage.verifyPasswordChangeSuccessful();
     }

@@ -1,6 +1,9 @@
 package tests.web;
 
 
+import models.PlaylistModel;
+import models.SongModel;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import app.SongsterrApp;
 import tests.TestBase;
@@ -13,38 +16,40 @@ public class MyTabsPageTests extends TestBase {
     SongsterrApp app = new SongsterrApp();
 
     @Test
+    @Tag("AuthRequired")
     void addSongToFavorites() {
+
+        SongModel newSong = SongModel.builder()
+                .artist("The Strokes")
+                .title("Happy Ending")
+                .build();
 
         open("/");
 
-        app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInPage.submitSignIn();
-        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
-
         app.toolbar.openSearchPanel();
-        app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.openSearchResultByText("Happy Ending");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.openSearchResultByText(newSong.getTitle());
         app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
 
-        app.myTabsPage.verifyFavoritesTabHasSong("Happy Ending", "The Strokes");
+        app.myTabsPage.verifyFavoritesTabHasSong(newSong.getTitle(), newSong.getArtist());
 
     }
 
     @Test
+    @Tag("AuthRequired")
     void removeSongFromFavorites() {
+
+        SongModel newSong = SongModel.builder()
+                .artist("The Strokes")
+                .title("Happy Ending")
+                .build();
 
         open("/");
 
-        app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInPage.submitSignIn();
-        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
-
         app.toolbar.openSearchPanel();
-        app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.openSearchResultByText("Happy Ending");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.openSearchResultByText(newSong.getTitle());
 
         app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
@@ -55,25 +60,25 @@ public class MyTabsPageTests extends TestBase {
     }
 
     @Test
+    @Tag("AuthRequired")
     void removeSongFromContributions() {
+
+        SongModel newSong = SongModel.builder()
+                .artist("Test Band")
+                .title("My Test Song")
+                .build();
 
         open("/");
 
-        app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInPage.submitSignIn();
-        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
-
-
         app.toolbar.openNewTabPanel();
-        app.newTabPage.createNewBlankTab("My Test Song", "Test Band");
+        app.newTabPage.createNewBlankTab(newSong.getTitle(), newSong.getArtist());
         app.newTabPage.verifyNewTabPanelIsClosed();
 
         app.toolbar.openMyTabsPanel();
 
         app.myTabsPage.openContributionsTab();
-        app.searchPanel.openSearchResultByText("My Test Song");
-        app.songPage.deleteContributedSong("My Test Song", "test band");
+        app.searchPanel.openSearchResultByText(newSong.getTitle());
+        app.songPage.deleteContributedSong(newSong.getTitle(), newSong.getArtist());
 
         app.songPage.verifySongIsDeleted();
 
@@ -81,55 +86,65 @@ public class MyTabsPageTests extends TestBase {
     }
 
     @Test
+    @Tag("AuthRequired")
     void addSongToPlaylist() {
+
+        SongModel newSong = SongModel.builder()
+                .artist("The Strokes")
+                .title("Happy Ending")
+                .build();
+
+        PlaylistModel newPlaylist = PlaylistModel.builder()
+                .name("MyTestPlaylist")
+                .build();
 
         open("/");
 
-        app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInPage.submitSignIn();
-        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
-
         app.toolbar.openSearchPanel();
-        app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.openSearchResultByText("Happy Ending");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.openSearchResultByText(newSong.getTitle());
 
         app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
 
         app.myTabsPage.openPlaylistsTab();
-        app.myTabsPage.createPlaylist("MyTestPlaylist");
+        app.myTabsPage.createPlaylist(newPlaylist.getName());
 
         app.myTabsPage.openFavoritesTab();
-        app.myTabsPage.addSongFromFavoritesToPlaylist("MyTestPlaylist");
+        app.myTabsPage.addSongFromFavoritesToPlaylist(newPlaylist.getName());
 
         app.myTabsPage.openPlaylistsTab();
-        app.myTabsPage.verifyPlaylistHasSong("The Strokes", "Happy Ending");
+        app.myTabsPage.verifyPlaylistHasSong(newSong.getTitle(), newSong.getArtist());
 
     }
 
     @Test
+    @Tag("AuthRequired")
     void removeSongFromPlaylist() {
+
+        SongModel newSong = SongModel.builder()
+                .artist("The Strokes")
+                .title("Happy Ending")
+                .build();
+
+        PlaylistModel newPlaylist = PlaylistModel.builder()
+                .name("MyTestPlaylist")
+                .build();
 
         open("/");
 
-        app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInPage.submitSignIn();
-        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
-
         app.toolbar.openSearchPanel();
-        app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.openSearchResultByText("Happy Ending");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.openSearchResultByText(newSong.getTitle());
 
         app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
 
         app.myTabsPage.openPlaylistsTab();
-        app.myTabsPage.createPlaylist("MyTestPlaylist");
+        app.myTabsPage.createPlaylist(newPlaylist.getName());
 
         app.myTabsPage.openFavoritesTab();
-        app.myTabsPage.addSongFromFavoritesToPlaylist("MyTestPlaylist");
+        app.myTabsPage.addSongFromFavoritesToPlaylist(newPlaylist.getName());
 
         app.myTabsPage.openPlaylistsTab();
 
@@ -140,26 +155,31 @@ public class MyTabsPageTests extends TestBase {
     }
 
     @Test
+    @Tag("AuthRequired")
     void deletePlaylist() {
+
+        SongModel newSong = SongModel.builder()
+                .artist("The Strokes")
+                .title("Happy Ending")
+                .build();
+
+        PlaylistModel newPlaylist = PlaylistModel.builder()
+                .name("MyTestPlaylist")
+                .build();
 
         open("/");
 
-        app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInPage.submitSignIn();
-        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
-
         app.toolbar.openSearchPanel();
-        app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.openSearchResultByText("Happy Ending");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.openSearchResultByText(newSong.getTitle());
 
         app.songPage.addCurrentSongToFavorites();
         app.toolbar.openMyTabsPanel();
 
         app.myTabsPage.openPlaylistsTab();
-        app.myTabsPage.createPlaylist("MyTestPlaylist");
+        app.myTabsPage.createPlaylist(newPlaylist.getName());
 
-        app.myTabsPage.deletePlaylist("MyTestPlaylist");
+        app.myTabsPage.deletePlaylist(newPlaylist.getName());
 
 
         app.myTabsPage.verifyPlaylistsTabIsEmpty();

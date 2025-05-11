@@ -1,5 +1,7 @@
 package tests.web;
 
+import models.SongModel;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import app.SongsterrApp;
 import tests.TestBase;
@@ -11,18 +13,19 @@ public class ControlsBarTests extends TestBase {
     SongsterrApp app = new SongsterrApp();
 
     @Test
+    @Tag("AuthRequired")
     void editSongFromNoteMenu() {
+
+        SongModel newSong = SongModel.builder()
+                .artist("The Strokes")
+                .title("Happy Ending")
+                .build();
 
         open("/");
 
-        app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInPage.submitSignIn();
-        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
-
         app.toolbar.openSearchPanel();
-        app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.verifySearchResultTitlesHaveText("Happy Ending");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.verifySearchResultTitlesHaveText(newSong.getTitle());
         app.controlsBar.toggleEditMode();
         app.songPage.selectOptionInNoteEditingMenu("Set 1/2 duration");
         app.controlsBar.toggleEditMode();
@@ -31,18 +34,19 @@ public class ControlsBarTests extends TestBase {
     }
 
     @Test
+    @Tag("AuthRequired")
     void resetSongEdits() {
+
+        SongModel newSong = SongModel.builder()
+                .artist("The Strokes")
+                .title("Happy Ending")
+                .build();
 
         open("/");
 
-        app.toolbar.openSignInMenu();
-        app.signInPage.fillSignInUserData("gerasimovsa20@gmail.com", "mypass123");
-        app.signInPage.submitSignIn();
-        app.toolbar.verifyAccountNameIsDisplayed("regular_s");
-
         app.toolbar.openSearchPanel();
-        app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.verifySearchResultTitlesHaveText("Happy Ending");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.verifySearchResultTitlesHaveText(newSong.getTitle());
         app.controlsBar.toggleEditMode();
         app.songPage.selectOptionInNoteEditingMenu("Set 1/2 duration");
         app.controlsBar.toggleEditMode();
@@ -55,10 +59,15 @@ public class ControlsBarTests extends TestBase {
     @Test
     void selectTabInstrument() {
 
+        SongModel newSong = SongModel.builder()
+                .artist("The Strokes")
+                .title("Happy Ending")
+                .build();
+
         open("/");
 
-        app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.verifySearchResultTitlesHaveText("Happy Ending");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.verifySearchResultTitlesHaveText(newSong.getTitle());
         app.controlsBar.selectInstrumentFromMixer("Drums");
 
         app.controlsBar.verifyCurrentTabInstrument("Drum");
@@ -69,10 +78,15 @@ public class ControlsBarTests extends TestBase {
     @Test
     void playSong() {
 
+        SongModel newSong = SongModel.builder()
+                .artist("The Strokes")
+                .title("Happy Ending")
+                .build();
+
         open("/");
 
-        app.searchPanel.enterSearchQuery("happy ending the strokes");
-        app.searchPanel.verifySearchResultTitlesHaveText("Happy Ending");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.verifySearchResultTitlesHaveText(newSong.getTitle());
         app.controlsBar.playSong();
 
         app.songPage.verifyCursorIsNotOnDefaultPosition(93, -22, 0);

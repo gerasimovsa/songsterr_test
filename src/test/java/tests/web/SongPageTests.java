@@ -1,5 +1,6 @@
 package tests.web;
 
+import models.SongModel;
 import org.junit.jupiter.api.Test;
 import app.SongsterrApp;
 import tests.TestBase;
@@ -14,23 +15,33 @@ public class SongPageTests extends TestBase {
     @Test
     void openArtistSearch() {
 
+        SongModel newSong = SongModel.builder()
+                .title("Rhubarb")
+                .artist("Aphex Twin")
+                .build();
+
         open("/");
 
-        app.searchPanel.enterSearchQuery("aphex twin - rhubarb");
-        app.searchPanel.openSearchResultByText("Rhubarb");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.openSearchResultByText(newSong.getTitle());
         app.songPage.openArtistOfCurrentSong();
 
-        app.searchPanel.verifySearchResultArtistsHaveText("Aphex Twin");
+        app.searchPanel.verifySearchResultArtistsHaveText(newSong.getArtist());
 
     }
 
     @Test
     void openRevisionTab() {
 
+        SongModel newSong = SongModel.builder()
+                .title("Rhubarb")
+                .artist("Aphex Twin")
+                .build();
+
         open("/");
 
-        app.searchPanel.enterSearchQuery("aphex twin - rhubarb");
-        app.searchPanel.openSearchResultByText("Rhubarb");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.openSearchResultByText(newSong.getArtist());
         app.songPage.openRevisionsOfCurrentSong();
 
         app.songPage.verifyRevisionsOpened();
@@ -40,10 +51,15 @@ public class SongPageTests extends TestBase {
     @Test
     void addSongToFavoritesWhenNotLoggedIn() {
 
+        SongModel newSong = SongModel.builder()
+                .title("Rhubarb")
+                .artist("Aphex Twin")
+                .build();
+
         open("/");
 
-        app.searchPanel.enterSearchQuery("aphex twin - rhubarb");
-        app.searchPanel.openSearchResultByText("Rhubarb");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.openSearchResultByText(newSong.getTitle());
         app.songPage.addCurrentSongToFavorites();
 
         app.songPage.verifySignUpWarningIsDisplayed();
@@ -53,10 +69,15 @@ public class SongPageTests extends TestBase {
     @Test
     void moveCursorToSongBar() {
 
+        SongModel newSong = SongModel.builder()
+                .title("Rhubarb")
+                .artist("Aphex Twin")
+                .build();
+
         open("/");
 
-        app.searchPanel.enterSearchQuery("aphex twin - rhubarb");
-        app.searchPanel.openSearchResultByText("Rhubarb");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.openSearchResultByText(newSong.getTitle());
         app.songPage.selectSongBarAtRow(2, 600);
 
         app.songPage.verifyCursorHasTransform(1337, -22, 0);
@@ -66,10 +87,15 @@ public class SongPageTests extends TestBase {
     @Test
     void markSongBarAsLearned() {
 
+        SongModel newSong = SongModel.builder()
+                .title("Rhubarb")
+                .artist("Aphex Twin")
+                .build();
+
         open("/");
 
-        app.searchPanel.enterSearchQuery("aphex twin - rhubarb");
-        app.searchPanel.openSearchResultByText("Rhubarb");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.openSearchResultByText(newSong.getTitle());
         app.songPage.selectSongBarAtRow(2, 600);
         app.songPage.markCurrentBarAsLearned();
 
@@ -80,15 +106,20 @@ public class SongPageTests extends TestBase {
     @Test
     void editSongBarFromTablist() {
 
+        SongModel newSong = SongModel.builder()
+                .title("Rhubarb")
+                .artist("Aphex Twin")
+                .build();
 
         open("/");
 
-        app.searchPanel.enterSearchQuery("aphex twin - rhubarb");
-        app.searchPanel.openSearchResultByText("Rhubarb");
+        app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
+        app.searchPanel.openSearchResultByText(newSong.getTitle());
         app.songPage.selectSongBarAtRow(2, 600);
         app.songPage.enableEditModeFromBarMenu();
 
         app.songPage.verifyBarEditModeIsEnabled();
+
     }
 
 }

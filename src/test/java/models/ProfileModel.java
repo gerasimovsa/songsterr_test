@@ -24,4 +24,7 @@ public class ProfileModel {
     @Builder.Default
     private String email = "Unknown title";
 
+    @Builder.Default
+    private String password = "Default pass";
+
 }

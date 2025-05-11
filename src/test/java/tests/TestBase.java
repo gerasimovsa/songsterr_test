@@ -1,12 +1,14 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 import org.openqa.selenium.Cookie;
 import utils.AuthUtils;
 
+import static com.codeborne.selenide.Selenide.*;
 import static utils.AuthUtils.getAuthCookie;
 
 public class TestBase {
@@ -27,7 +29,14 @@ public class TestBase {
     @BeforeEach
     void beforeEach(TestInfo testInfo) {
         if (testInfo.getTags().contains("AuthRequired")) {
+            open("/");
             api.authorizeUser(cookie);
         }
+    }
+
+    @AfterEach
+    void afterEach() {
+        clearBrowserCookies();
+        clearBrowserLocalStorage();
     }
 }

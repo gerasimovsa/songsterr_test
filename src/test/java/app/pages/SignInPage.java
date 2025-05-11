@@ -34,7 +34,7 @@ public class SignInPage {
     }
 
     public void verifyUserLoggedOut() {
-        $("h1#top").shouldHave(text("Sign In"));
+        $("#panel-signin h1").shouldHave(text("Sign In"));
     }
 
 }

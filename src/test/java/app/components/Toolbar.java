@@ -3,6 +3,7 @@ package app.components;
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.actions;
 
 public class Toolbar {
 
@@ -27,7 +28,10 @@ public class Toolbar {
     }
 
     public void closeCurrentPanel() {
-        $("#sidebar-overlay").click();
+        actions()
+                .moveByOffset( 500  , 500)
+                .click()
+                .perform();
     }
 
     public void verifyAccountNameIsDisplayed(String accountName) {
@@ -35,7 +39,7 @@ public class Toolbar {
     }
 
     public void verifyNoAccountNameIsDisplayed() {
-        $("#menu-account").lastChild().shouldHave(text("Sign In"));
+        $("#menu-signin").lastChild().shouldHave(text("Sign In"));
     }
 
 }

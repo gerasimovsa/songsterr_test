@@ -1,7 +1,6 @@
 package app.pages;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -25,12 +24,12 @@ public class AccountPage {
     }
 
     public void verifyAccountMenuOpened() {
-        $("h1#top").shouldHave(text("Account"));
+        $("h1#top").shouldHave(text("Profile"));
     }
 
     public void verifyAccountMenuHasUserInfo(String name, String email) {
-        $("[name='name']").shouldHave(text(name));
-        $("[name='email']").shouldHave(text(email));
+        $("[name='name']").shouldHave(attribute("value", name));
+        $("[name='email']").shouldHave(attribute("value", email));
     }
 
     public void verifyPasswordChangeSuccessful() {

@@ -1,7 +1,6 @@
 package utils;
 
 
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.WebDriverRunner;
 
@@ -15,7 +14,6 @@ import org.openqa.selenium.Cookie;
 public class AuthUtils {
 
     public static Cookie getAuthCookie() {
-        Configuration.headless = true;
         open("/");
         $("#menu-signin").shouldBe(visible).click();
         $("[name='email']").shouldBe(empty).setValue("gerasimovsa20@gmail.com");
@@ -24,7 +22,6 @@ public class AuthUtils {
         $("#signin").click();
         $("#menu-account").lastChild().shouldHave(text("regularS"));
         Cookie cookie = WebDriverRunner.getWebDriver().manage().getCookieNamed("SongsterrT");
-        closeWebDriver();
         if (cookie != null) {
             return cookie;
         } else {
@@ -33,7 +30,7 @@ public class AuthUtils {
     }
 
     public void authorizeUser(Cookie cookie) {
-        open("/");
+        WebDriverRunner.getWebDriver().manage().deleteAllCookies();
         WebDriverRunner.getWebDriver().manage().addCookie(cookie);
-    }
+        refresh();    }
 }
