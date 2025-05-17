@@ -10,11 +10,14 @@ repositories {
 }
 
 dependencies {
-    testImplementation("io.rest-assured:rest-assured:5.5.0")
+    testImplementation(
+            "io.rest-assured:rest-assured:5.5.0",
+            'org.junit.jupiter:junit-jupiter',
+            'com.codeborne:selenide:7.6.0',
+            'org.assertj:assertj-core:3.24.2',
+            'org.aeonbits.owner:owner:1.0.12'
+    )
     testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testImplementation 'com.codeborne:selenide:7.6.0'
-    testImplementation 'org.assertj:assertj-core:3.24.2'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.3'
     compileOnly("org.projectlombok:lombok:1.18.38")
     annotationProcessor("org.projectlombok:lombok:1.18.38")
@@ -26,4 +29,5 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    systemProperties(System.getProperties())
 }
