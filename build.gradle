@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.11.2'
 }
 
 group = 'com.songsterr'
@@ -15,7 +16,10 @@ dependencies {
             'org.junit.jupiter:junit-jupiter',
             'com.codeborne:selenide:7.6.0',
             'org.assertj:assertj-core:3.24.2',
-            'org.aeonbits.owner:owner:1.0.12'
+            'org.aeonbits.owner:owner:1.0.12',
+            'io.qameta.allure:allure-selenide:2.24.0',
+            'io.qameta.allure:allure-rest-assured:2.24.0',
+            'io.qameta.allure:allure-junit5:2.24.0'
     )
     testImplementation platform('org.junit:junit-bom:5.10.0')
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.3'
@@ -30,4 +34,12 @@ dependencies {
 test {
     useJUnitPlatform()
     systemProperties(System.getProperties())
+
+    allure {
+        version = '2.24.0'
+        useJUnit5 {
+            version = '2.24.0'
+        }
+    }
+
 }

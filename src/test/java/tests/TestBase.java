@@ -2,6 +2,7 @@ package tests;
 
 import com.codeborne.selenide.Configuration;
 import config.BrowserConfig;
+import io.qameta.allure.Step;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,6 +22,7 @@ public class TestBase {
 
     private static final BrowserConfig config = ConfigFactory.create(BrowserConfig.class);
 
+    @Step("Setting up browser")
     @BeforeAll
     static void beforeAll() {
         Configuration.browser = config.browser().getSelenideName();
@@ -33,6 +35,7 @@ public class TestBase {
 
     }
 
+    @Step("Setting up test")
     @BeforeEach
     void beforeEach(TestInfo testInfo) {
         open("/");
@@ -41,6 +44,7 @@ public class TestBase {
         }
     }
 
+    @Step("Clearing up after test")
     @AfterEach
     void afterEach() {
         clearBrowserCookies();

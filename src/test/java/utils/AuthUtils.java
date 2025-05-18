@@ -27,6 +27,7 @@ public class AuthUtils {
         $("#signin").click();
         $("#menu-account").lastChild().shouldHave(text(config.authUsername()));
         Cookie cookie = WebDriverRunner.getWebDriver().manage().getCookieNamed("SongsterrT");
+        closeWebDriver();
         if (cookie != null) {
             return cookie;
         } else {

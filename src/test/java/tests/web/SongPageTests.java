@@ -38,10 +38,8 @@ public class SongPageTests extends TestBase {
                 .artist("Aphex Twin")
                 .build();
 
-        open("/");
-
         app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
-        app.searchPanel.openSearchResultByText(newSong.getArtist());
+        app.searchPanel.openSearchResultByText(newSong.getTitle());
         app.songPage.openRevisionsOfCurrentSong();
 
         app.songPage.verifyRevisionsOpened();
