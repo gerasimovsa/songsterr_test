@@ -22,7 +22,7 @@ public class TestBase {
 
     private static final BrowserConfig config = ConfigFactory.create(BrowserConfig.class);
 
-    @Step("Setting up browser")
+    @Step("Setting up browser configurations")
     @BeforeAll
     static void beforeAll() {
         Configuration.browser = config.browser().getSelenideName();
@@ -35,7 +35,7 @@ public class TestBase {
 
     }
 
-    @Step("Setting up test")
+    @Step("Opening main page and adding auth cookie if needed")
     @BeforeEach
     void beforeEach(TestInfo testInfo) {
         open("/");

@@ -1,6 +1,7 @@
 package api;
 
 
+import io.qameta.allure.Step;
 import models.ProfileModel;
 import org.openqa.selenium.Cookie;
 
@@ -11,6 +12,7 @@ import static specs.ProfileSpec.profileResponse;
 
 public class ProfileApi {
 
+    @Step("GET logged int profile")
     public ProfileModel getLoggedInProfile(Cookie cookie) {
         return given()
                 .spec(profileRequest)

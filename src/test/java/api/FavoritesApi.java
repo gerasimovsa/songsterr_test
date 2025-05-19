@@ -5,6 +5,7 @@ import static io.restassured.RestAssured.given;
 import static specs.FavoritesSpec.*;
 
 
+import io.qameta.allure.Step;
 import models.SongModel;
 import org.openqa.selenium.Cookie;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 public class FavoritesApi {
 
+    @Step("GET all favorite songs IDs | DELETE each song by ID")
     public void clearFavorites(Cookie cookie) {
         List<Integer> ids =
                 given()
@@ -37,6 +39,7 @@ public class FavoritesApi {
         }
     }
 
+    @Step("PUT song to favorites")
     public void putSongToFavorites(Cookie cookie, Integer id) {
         given()
                 .spec(FavoritesRequest)
@@ -48,6 +51,7 @@ public class FavoritesApi {
 
     }
 
+    @Step("DELETE song from favorites")
     public void deleteSongFromFavorites(Cookie cookie, Integer id) {
         given()
                 .spec(FavoritesRequest)
@@ -59,6 +63,7 @@ public class FavoritesApi {
 
     }
 
+    @Step("GET favorites song")
     public SongModel getFavoriteSongs(Cookie cookie) {
         return given()
                 .spec(FavoritesRequest)
@@ -70,6 +75,7 @@ public class FavoritesApi {
                 .extract().jsonPath().getList(".", SongModel.class).get(0);
     }
 
+    @Step("GET empty favorites")
     public String getEmptyFavorites(Cookie cookie) {
         return given()
                 .cookie(String.valueOf(cookie))
