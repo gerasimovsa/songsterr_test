@@ -1,48 +1,39 @@
 package api;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.restassured.http.ContentType;
+import io.qameta.allure.Step;
+import models.ProfileModel;
 import org.openqa.selenium.Cookie;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.is;
+import static specs.AuthSpec.*;
 
 
 public class AuthApi {
 
-    String authChangeEndpoint = "/auth/change";
-
-    public void postChangesToProfile(Cookie cookie, String payload) throws JsonProcessingException {
-        String name = new ObjectMapper().readTree(payload).get("name").asText();
-        String email = new ObjectMapper().readTree(payload).get("email").asText();
+    @Step("POST changes to profile")
+    public void postChangesToProfile(Cookie cookie, ProfileModel profile) {
 
         given()
+                .spec(authRequest)
                 .cookie(String.valueOf(cookie))
-                .log().all()
-                .contentType(ContentType.JSON)
-                .body(payload)
+                .body(profile)
                 .when()
-                .post("https://www.songsterr.com" + authChangeEndpoint)
+                .post()
                 .then()
-                .log().all()
-                .statusCode(200)
-                .body("name", is(name))
-                .body("email", is(email));
+                .spec(authResponse);
     }
 
-    public void postChangesWithInvalidEmail(Cookie cookie, String payload) {
-        given()
+    @Step("POST changes to profile with invalid email")
+    public String postChangesWithInvalidEmail(Cookie cookie, ProfileModel profile) {
+        return given()
+                .spec(authRequest)
                 .cookie(String.valueOf(cookie))
-                .log().all()
-                .contentType(ContentType.JSON)
-                .body(payload)
+                .body(profile)
                 .when()
-                .post("https://www.songsterr.com" + authChangeEndpoint)
+                .post()
                 .then()
-                .log().all()
-                .statusCode(400)
-                .body("error", is("Please fix the errors and try again"));
+                .spec(authInvalidResponse)
+                .extract().body().asString();
     }
 }

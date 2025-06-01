@@ -1,69 +1,62 @@
 package api;
 
-
-import io.restassured.http.ContentType;
-
-import static org.hamcrest.Matchers.*;
-
+import io.qameta.allure.Step;
 import models.PlaylistModel;
 import org.openqa.selenium.Cookie;
 
 
 import static io.restassured.RestAssured.given;
+import static specs.PlaylistsSpec.*;
 
 
 public class PlaylistsApi {
 
-    String playlistsEndpoint = "/api/setlist";
-
+    @Step("POST new playlist")
     public PlaylistModel postNewPlaylist(Cookie cookie, PlaylistModel playlist) {
         return given()
+                .spec(playlistsRequest)
                 .cookie(String.valueOf(cookie))
-                .contentType(ContentType.JSON)
                 .body(playlist)
-                .log().all()
                 .when()
-                .post("https://www.songsterr.com" + playlistsEndpoint)
+                .post()
                 .then()
-                .log().all()
-                .statusCode(201)
-                .body("id", not(empty()))
+                .spec(managePlaylistsResponse)
                 .extract().as(PlaylistModel.class);
     }
 
+    @Step("GET playlist by ID")
     public PlaylistModel getPlaylistByID(Cookie cookie, Integer playlistID) {
         return given()
+                .spec(playlistsRequest)
                 .cookie(String.valueOf(cookie))
-                .log().all()
                 .when()
-                .get("https://www.songsterr.com" + playlistsEndpoint + "/" + playlistID)
+                .get("/" + playlistID)
                 .then()
-                .log().all()
-                .statusCode(200)
+                .spec(getPlaylistResponse)
                 .extract().as(PlaylistModel.class);
 
     }
 
+    @Step("DELETE playlist by ID")
     public void deletePlaylistByID(Cookie cookie, Integer playlistID) {
         given()
+                .spec(playlistsRequestNoBody)
                 .cookie(String.valueOf(cookie))
-                .log().all()
                 .when()
-                .delete("https://www.songsterr.com" + playlistsEndpoint + "/" + playlistID)
+                .delete("/" + playlistID)
                 .then()
-                .log().all()
-                .statusCode(201);
+                .spec(managePlaylistsResponse);
     }
 
+    @Step("GET non-existing playlist")
     public String getPlaylistNotFound(Cookie cookie, Integer playlistID) {
         return given()
+                .spec(playlistsRequestNoBody)
                 .cookie(String.valueOf(cookie))
-                .log().all()
                 .when()
-                .delete("https://www.songsterr.com" + playlistsEndpoint + "/" + playlistID)
+                .delete("/" + playlistID)
                 .then()
-                .log().all()
-                .statusCode(404)
+                .spec(getPlaylistNotFoundResponse)
                 .extract().body().asString();
     }
 

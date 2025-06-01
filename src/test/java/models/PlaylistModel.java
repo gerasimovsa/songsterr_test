@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PlaylistModel {
+
     @Builder.Default
     @JsonProperty("id")
     private Integer playlistId = 0;

@@ -2,9 +2,10 @@ package api;
 
 
 import static io.restassured.RestAssured.given;
+import static specs.FavoritesSpec.*;
 
 
-import io.restassured.response.Response;
+import io.qameta.allure.Step;
 import models.SongModel;
 import org.openqa.selenium.Cookie;
 
@@ -13,68 +14,76 @@ import java.util.List;
 
 public class FavoritesApi {
 
-    String favoritesEndpoint = "/api/favorites";
-
+    @Step("GET all favorite songs IDs | DELETE each song by ID")
     public void clearFavorites(Cookie cookie) {
-        Response response = given()
-                .cookie(String.valueOf(cookie))
-                .when()
-                .get("https://www.songsterr.com" + favoritesEndpoint);
-        response.then()
-                .statusCode(200);
-        List<Integer> ids = response.jsonPath().getList("songId");
+        List<Integer> ids =
+                given()
+                        .spec(FavoritesRequest)
+                        .cookie(String.valueOf(cookie))
+                        .when()
+                        .get()
+                        .then()
+                        .spec(getFavoritesResponseSuccess)
+                        .extract().jsonPath().getList("songId");
+
         if (!ids.isEmpty()) {
             for (Integer songId : ids) {
                 given()
+                        .spec(FavoritesRequest)
                         .cookie(String.valueOf(cookie))
                         .when()
-                        .delete("https://www.songsterr.com" + favoritesEndpoint + "/" + songId)
+                        .delete("/" + songId)
                         .then()
-                        .statusCode(201);
+                        .spec(manageFavoritesResponse);
             }
         }
     }
 
+    @Step("PUT song to favorites")
     public void putSongToFavorites(Cookie cookie, Integer id) {
         given()
+                .spec(FavoritesRequest)
                 .cookie(String.valueOf(cookie))
                 .when()
-                .put("https://www.songsterr.com" + favoritesEndpoint + "/" + id)
+                .put("/" + id)
                 .then()
-                .log().status()
-                .statusCode(201);
+                .spec(manageFavoritesResponse);
 
     }
 
+    @Step("DELETE song from favorites")
     public void deleteSongFromFavorites(Cookie cookie, Integer id) {
         given()
+                .spec(FavoritesRequest)
                 .cookie(String.valueOf(cookie))
                 .when()
-                .delete("https://www.songsterr.com" + favoritesEndpoint + "/" + id)
+                .delete("/" + id)
                 .then()
-                .statusCode(201);
+                .spec(manageFavoritesResponse);
 
     }
 
+    @Step("GET favorites song")
     public SongModel getFavoriteSongs(Cookie cookie) {
         return given()
+                .spec(FavoritesRequest)
                 .cookie(String.valueOf(cookie))
                 .when()
-                .get("https://www.songsterr.com" + favoritesEndpoint)
+                .get()
                 .then()
-                .log().all()
-                .statusCode(200)
+                .spec(getFavoritesResponseSuccess)
                 .extract().jsonPath().getList(".", SongModel.class).get(0);
     }
 
+    @Step("GET empty favorites")
     public String getEmptyFavorites(Cookie cookie) {
         return given()
                 .cookie(String.valueOf(cookie))
+                .spec(FavoritesRequest)
                 .when()
-                .get("https://www.songsterr.com" + favoritesEndpoint)
+                .get()
                 .then()
-                .log().body()
-                .statusCode(200)
+                .spec(getFavoritesResponseSuccess)
                 .extract().body().asString();
     }
 }

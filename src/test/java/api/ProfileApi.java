@@ -1,32 +1,27 @@
 package api;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.qameta.allure.Step;
+import models.ProfileModel;
 import org.openqa.selenium.Cookie;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.is;
+import static specs.ProfileSpec.profileRequest;
+import static specs.ProfileSpec.profileResponse;
 
 
 public class ProfileApi {
 
-    String profileEndpoint = "/auth/profile";
-
-    public void getLoggedInProfile(Cookie cookie, String profileJSON) throws JsonProcessingException {
-        String name = new ObjectMapper().readTree(profileJSON).get("name").asText();
-        String email = new ObjectMapper().readTree(profileJSON).get("email").asText();
-
-        given()
-            .cookie(String.valueOf(cookie))
-            .log().all()
-            .when()
-            .get("https://www.songsterr.com" + profileEndpoint)
-            .then()
-            .log().all()
-            .statusCode(200)
-            .body("name", is(name))
-            .body("email", is(email));
+    @Step("GET logged int profile")
+    public ProfileModel getLoggedInProfile(Cookie cookie) {
+        return given()
+                .spec(profileRequest)
+                .cookie(String.valueOf(cookie))
+                .when()
+                .get()
+                .then()
+                .spec(profileResponse)
+                .extract().as(ProfileModel.class);
     }
 
 }

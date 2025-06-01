@@ -1,53 +1,48 @@
 package api;
 
 
+import io.qameta.allure.Step;
+import models.SongModel;
 import org.openqa.selenium.Cookie;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static specs.SongSpec.*;
 
 
 public class SongApi {
 
-    String songEndpoint = "/api/song";
-
-    public void getSongById(Cookie cookie, int id, String artist, String title) {
-        String songID = String.valueOf(id);
-        given()
-            .cookie(String.valueOf(cookie))
-            .log().all()
-            .when()
-            .get("https://www.songsterr.com" + songEndpoint + "/" + songID)
-            .then()
-            .log().all()
-            .statusCode(200)
-            .body("songId", is(id))
-            .body("artist", is(artist))
-            .body("title", is(title));
+    @Step("GET song by ID")
+    public SongModel getSongById(Cookie cookie, SongModel song) {
+        return given()
+                .spec(songRequest)
+                .cookie(String.valueOf(cookie))
+                .when()
+                .get("/" + song.getSongId())
+                .then()
+                .spec(songResponse)
+                .extract().as(SongModel.class);
     }
 
-    public void getSongByIdNotFound(Cookie cookie, int id) {
-        String songID = String.valueOf(id);
-        given()
+    @Step("GET non-existing song by ID")
+    public String getSongByIdNotFound(Cookie cookie, SongModel song) {
+        return given()
+                .spec(songRequest)
                 .cookie(String.valueOf(cookie))
-                .log().all()
                 .when()
-                .get("https://www.songsterr.com" + songEndpoint + "/" + songID)
+                .get("/" + song.getSongId())
                 .then()
-                .log().all()
-                .statusCode(404)
-                .body("error", is("Not Found"));
+                .spec(songNotFoundResponse)
+                .extract().body().asString();
     }
 
-    public void deleteSongById(Cookie cookie, int id) {
-        String songID = String.valueOf(id);
+    @Step("DELETE song by ID")
+    public void deleteSongById(Cookie cookie, SongModel song) {
         given()
+                .spec(songRequest)
                 .cookie(String.valueOf(cookie))
-                .log().all()
                 .when()
-                .delete("https://www.songsterr.com" + songEndpoint + "/" + songID)
+                .delete("/" + song.getSongId())
                 .then()
-                .log().all()
                 .statusCode(204);
     }
 
