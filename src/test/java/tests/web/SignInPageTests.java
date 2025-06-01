@@ -1,6 +1,11 @@
 package tests.web;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Severity;
 import models.ProfileModel;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import app.SongsterrApp;
@@ -8,13 +13,20 @@ import tests.TestBase;
 
 
 import static com.codeborne.selenide.Selenide.*;
+import static io.qameta.allure.SeverityLevel.CRITICAL;
 
+@Tag("Web")
+@Epic("Songsterr - Web")
+@Feature("Sign In")
+@Owner("gerasimovsa")
 public class SignInPageTests extends TestBase {
 
     SongsterrApp app = new SongsterrApp();
 
     @Test
-    void registerUser() {
+    @DisplayName("Register new user")
+    @Severity(CRITICAL)
+    void registerUserTest() {
 
         ProfileModel newProfile = ProfileModel.builder()
                 .name("John Doe")
@@ -41,7 +53,9 @@ public class SignInPageTests extends TestBase {
     }
 
     @Test
-    void signInUser() {
+    @DisplayName("Sign in user")
+    @Severity(CRITICAL)
+    void signInUserTest() {
 
         ProfileModel newProfile = ProfileModel.builder()
                 .name("regularS")
@@ -64,7 +78,9 @@ public class SignInPageTests extends TestBase {
 
     @Test
     @Tag("AuthRequired")
-    void signOutUser() {
+    @DisplayName("Sign out user")
+    @Severity(CRITICAL)
+    void signOutUserTest() {
 
 
         app.toolbar.openAccountMenu();
@@ -77,7 +93,9 @@ public class SignInPageTests extends TestBase {
 
     @Test
     @Tag("AuthRequired")
-    void editUserInfo() {
+    @DisplayName("Edit user")
+    @Severity(CRITICAL)
+    void editUserInfoTest() {
 
         ProfileModel newProfile = ProfileModel.builder()
                 .name("TestName")
@@ -97,7 +115,9 @@ public class SignInPageTests extends TestBase {
 
     @Test
     @Tag("AuthRequired")
-    void changeUserPassword() {
+    @DisplayName("Change user password")
+    @Severity(CRITICAL)
+    void changeUserPasswordTest() {
 
         ProfileModel newProfile = ProfileModel.builder()
                 .password("myPass321")

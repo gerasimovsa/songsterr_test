@@ -64,6 +64,12 @@ public class SearchPanel {
                 shouldHave(containExactTextsCaseSensitive(text));
     }
 
+    @Step("Verifying that Artist Search have {text} text in artists")
+    public void verifyArtistSearchHaveText(String text) {
+        $$("[data-field='artist']").
+                shouldHave(containExactTextsCaseSensitive(text));
+    }
+
     @Step("Verifying that search results have NO {text} text")
     public void verifySearchResultsHaveNoText(String text) {
         ElementsCollection titlesAndArtists = $$("[data-song=''] div>div");

@@ -1,19 +1,33 @@
 package tests.web;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Severity;
 import models.SongModel;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import app.SongsterrApp;
 import tests.TestBase;
 
 
 import static com.codeborne.selenide.Selenide.*;
+import static io.qameta.allure.SeverityLevel.CRITICAL;
+import static io.qameta.allure.SeverityLevel.NORMAL;
 
+@Tag("Web")
+@Epic("Songsterr - Web")
+@Feature("Song page")
+@Owner("gerasimovsa")
 public class SongPageTests extends TestBase {
 
     SongsterrApp app = new SongsterrApp();
 
     @Test
-    void openArtistSearch() {
+    @DisplayName("Open current song's artist")
+    @Severity(CRITICAL)
+    void openArtistOfCurrentSongTest() {
 
         SongModel newSong = SongModel.builder()
                 .title("Rhubarb")
@@ -26,12 +40,14 @@ public class SongPageTests extends TestBase {
         app.searchPanel.openSearchResultByText(newSong.getTitle());
         app.songPage.openArtistOfCurrentSong();
 
-        app.searchPanel.verifySearchResultArtistsHaveText(newSong.getArtist());
+        app.searchPanel.verifyArtistSearchHaveText(newSong.getArtist());
 
     }
 
     @Test
-    void openRevisionTab() {
+    @DisplayName("Open revision tab")
+    @Severity(NORMAL)
+    void openRevisionTabTest() {
 
         SongModel newSong = SongModel.builder()
                 .title("Rhubarb")
@@ -47,7 +63,9 @@ public class SongPageTests extends TestBase {
     }
 
     @Test
-    void addSongToFavoritesWhenNotLoggedIn() {
+    @DisplayName("Add song to favorites not logged in")
+    @Severity(CRITICAL)
+    void addSongToFavoritesWhenNotLoggedInTest() {
 
         SongModel newSong = SongModel.builder()
                 .title("Rhubarb")
@@ -65,7 +83,9 @@ public class SongPageTests extends TestBase {
     }
 
     @Test
-    void moveCursorToSongBar() {
+    @DisplayName("Move cursor for song")
+    @Severity(CRITICAL)
+    void moveCursorToSongBarTest() {
 
         SongModel newSong = SongModel.builder()
                 .title("Rhubarb")
@@ -83,7 +103,9 @@ public class SongPageTests extends TestBase {
     }
 
     @Test
-    void markSongBarAsLearned() {
+    @DisplayName("Marks song bar as learned")
+    @Severity(NORMAL)
+    void markSongBarAsLearnedTest() {
 
         SongModel newSong = SongModel.builder()
                 .title("Rhubarb")
@@ -102,7 +124,9 @@ public class SongPageTests extends TestBase {
     }
 
     @Test
-    void editSongBarFromTablist() {
+    @DisplayName("Edit song bar from tab list")
+    @Severity(NORMAL)
+    void editSongBarFromTablistTest() {
 
         SongModel newSong = SongModel.builder()
                 .title("Rhubarb")

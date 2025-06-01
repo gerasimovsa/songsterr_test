@@ -1,8 +1,13 @@
 package tests.web;
 
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Severity;
 import models.PlaylistModel;
 import models.SongModel;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import app.SongsterrApp;
@@ -10,14 +15,21 @@ import tests.TestBase;
 
 
 import static com.codeborne.selenide.Selenide.open;
+import static io.qameta.allure.SeverityLevel.CRITICAL;
 
+@Tag("Web")
+@Epic("Songsterr - Web")
+@Feature("My Tabs page")
+@Owner("gerasimovsa")
 public class MyTabsPageTests extends TestBase {
 
     SongsterrApp app = new SongsterrApp();
 
     @Test
     @Tag("AuthRequired")
-    void addSongToFavorites() {
+    @DisplayName("Adding song to favorites")
+    @Severity(CRITICAL)
+    void addSongToFavoritesTest() {
 
         SongModel newSong = SongModel.builder()
                 .artist("The Strokes")
@@ -38,7 +50,9 @@ public class MyTabsPageTests extends TestBase {
 
     @Test
     @Tag("AuthRequired")
-    void removeSongFromFavorites() {
+    @DisplayName("Remove song from favorites")
+    @Severity(CRITICAL)
+    void removeSongFromFavoritesTest() {
 
         SongModel newSong = SongModel.builder()
                 .artist("The Strokes")
@@ -61,7 +75,9 @@ public class MyTabsPageTests extends TestBase {
 
     @Test
     @Tag("AuthRequired")
-    void removeSongFromContributions() {
+    @DisplayName("Remove song from contributions")
+    @Severity(CRITICAL)
+    void removeSongFromContributionsTest() {
 
         SongModel newSong = SongModel.builder()
                 .artist("Test Band")
@@ -87,7 +103,9 @@ public class MyTabsPageTests extends TestBase {
 
     @Test
     @Tag("AuthRequired")
-    void addSongToPlaylist() {
+    @DisplayName("Add song to playlist")
+    @Severity(CRITICAL)
+    void addSongToPlaylistTest() {
 
         SongModel newSong = SongModel.builder()
                 .artist("The Strokes")
@@ -120,7 +138,9 @@ public class MyTabsPageTests extends TestBase {
 
     @Test
     @Tag("AuthRequired")
-    void removeSongFromPlaylist() {
+    @DisplayName("Remove song from playlist")
+    @Severity(CRITICAL)
+    void removeSongFromPlaylistTest() {
 
         SongModel newSong = SongModel.builder()
                 .artist("The Strokes")
@@ -131,9 +151,7 @@ public class MyTabsPageTests extends TestBase {
                 .name("MyTestPlaylist")
                 .build();
 
-        open("/");
 
-        app.toolbar.openSearchPanel();
         app.searchPanel.enterSearchQuery(newSong.getArtist() + " - " + newSong.getTitle());
         app.searchPanel.openSearchResultByText(newSong.getTitle());
 
@@ -156,7 +174,9 @@ public class MyTabsPageTests extends TestBase {
 
     @Test
     @Tag("AuthRequired")
-    void deletePlaylist() {
+    @DisplayName("Delete playlist")
+    @Severity(CRITICAL)
+    void deletePlaylistTest() {
 
         SongModel newSong = SongModel.builder()
                 .artist("The Strokes")

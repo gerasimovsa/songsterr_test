@@ -1,21 +1,30 @@
 package tests.api;
 
 import api.FavoritesApi;
+import io.qameta.allure.*;
 import models.SongModel;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
 
 
+import static io.qameta.allure.SeverityLevel.CRITICAL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
+@Tag("API")
+@Epic("Songsterr - API")
+@Feature("Favorites")
+@Owner("gerasimovsa")
 public class FavoritesTests extends TestBase {
 
     FavoritesApi favoritesApi = new FavoritesApi();
 
     @Test
     @Tag("AuthRequired")
+    @DisplayName("Adding song to favorites")
+    @Severity(CRITICAL)
     void addSongToFavoritesApiTest() {
 
         SongModel expectedSong = SongModel.builder()
@@ -37,6 +46,8 @@ public class FavoritesTests extends TestBase {
 
     @Test
     @Tag("AuthRequired")
+    @DisplayName("Removing song from favorites")
+    @Severity(CRITICAL)
     void removeSongFromFavoritesApiTest() {
 
         SongModel expectedSong = SongModel.builder()

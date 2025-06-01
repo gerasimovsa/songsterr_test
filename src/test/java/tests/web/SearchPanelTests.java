@@ -1,18 +1,32 @@
 package tests.web;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Owner;
+import io.qameta.allure.Severity;
 import models.SongModel;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import app.SongsterrApp;
 import tests.TestBase;
 
 import static com.codeborne.selenide.Selenide.*;
+import static io.qameta.allure.SeverityLevel.CRITICAL;
+import static io.qameta.allure.SeverityLevel.NORMAL;
 
+@Tag("Web")
+@Epic("Songsterr - Web")
+@Feature("Searchbar")
+@Owner("gerasimovsa")
 public class SearchPanelTests extends TestBase {
 
     SongsterrApp app = new SongsterrApp();
 
     @Test
-    void searchByTitle() {
+    @DisplayName("Search song by title")
+    @Severity(CRITICAL)
+    void searchByTitleTest() {
 
         SongModel newSong = SongModel.builder()
                 .title("Wonderwall")
@@ -26,7 +40,9 @@ public class SearchPanelTests extends TestBase {
     }
 
     @Test
-    void searchNoTabsFound() {
+    @DisplayName("Search song not found")
+    @Severity(CRITICAL)
+    void searchNoTabsFoundTest() {
 
         SongModel newSong = SongModel.builder()
                 .title("zxcvbnmqwertyui")
@@ -40,7 +56,9 @@ public class SearchPanelTests extends TestBase {
     }
 
     @Test
-    void searchByArtist() {
+    @DisplayName("Search song by artist")
+    @Severity(CRITICAL)
+    void searchByArtistTest() {
 
         SongModel newSong = SongModel.builder()
                 .artist("Radiohead")
@@ -54,7 +72,9 @@ public class SearchPanelTests extends TestBase {
     }
 
     @Test
-    void clearSearchField() {
+    @DisplayName("Clear search bar")
+    @Severity(CRITICAL)
+    void clearSearchFieldTest() {
 
         SongModel newSong = SongModel.builder()
                 .artist("FortySecondsToMars")
@@ -70,7 +90,9 @@ public class SearchPanelTests extends TestBase {
     }
 
     @Test
-    void searchFilterSortByDifficulty() {
+    @DisplayName("Filter search results by difficulty")
+    @Severity(NORMAL)
+    void searchFilterSortByDifficultyTest() {
 
         SongModel newSong = SongModel.builder()
                 .artist("Strokes")
@@ -86,7 +108,9 @@ public class SearchPanelTests extends TestBase {
     }
 
     @Test
-    void searchFilterSortByCustomTuning() {
+    @DisplayName("Filter search results by custom tuning")
+    @Severity(NORMAL)
+    void searchFilterSortByCustomTuningTest() {
 
         SongModel newSong = SongModel.builder()
                 .artist("Michael Jackson")
@@ -104,7 +128,9 @@ public class SearchPanelTests extends TestBase {
     }
 
     @Test
-    void openSongFromSearch() {
+    @DisplayName("Open song from search bar")
+    @Severity(CRITICAL)
+    void openSongFromSearchTest() {
 
         SongModel newSong = SongModel.builder()
                 .artist("Bondage Fairies")
@@ -122,7 +148,9 @@ public class SearchPanelTests extends TestBase {
     }
 
     @Test
-    void reopenSearchPanel() {
+    @DisplayName("Open search panel")
+    @Severity(CRITICAL)
+    void reopenSearchPanelTest() {
 
         SongModel newSong = SongModel.builder()
                 .artist("Frank Sinatra")
