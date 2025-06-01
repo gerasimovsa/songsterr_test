@@ -3,7 +3,7 @@
 ## <h>Description</h>
 
 The purpose is to create a complete test automation project in Java that showcases the usage of a common libraries.\
-The project includes various `UI` and `API` Java tests for _[songsterr.com](www.songsterr.com)_ web application.
+The project includes various `UI` and `API` Java tests for [songsterr.com](https://www.songsterr.com) web application.
 
 ### Key Features:
 
