@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 import org.openqa.selenium.Cookie;
+import utils.AllureAttachments;
 import utils.AuthUtils;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -47,6 +48,7 @@ public class TestBase {
     @Step("Clearing up after test")
     @AfterEach
     void afterEach() {
+        AllureAttachments.addAllureAttachments();
         clearBrowserCookies();
         clearBrowserLocalStorage();
     }

@@ -20,7 +20,7 @@ public class NewTabPage {
 
     @Step("Creating new {artist} - {title} song tab from gp file")
     public void createNewTabFromGuitarProTab(String title, String artist, String filepath) {
-        $("[aria-label='Upload GuitarPro']").click();
+        $("[aria-label='Upload GuitarPro tab']").click();
         $("[name='title']").shouldBe(empty).setValue(title);
         $("[name='artist']").shouldBe(empty).setValue(artist);
         File gpFile = new File(filepath);
