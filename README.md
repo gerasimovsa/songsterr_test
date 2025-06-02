@@ -36,10 +36,17 @@ Tests are written using `Selenide` Java framework.
 - Gradle 7+
 - Configured `src/test/resources/auth.properties` `src/test/resources/browser.properties` config files
 
-### Basic Command
+### Basic Commands
 
+Run all the tests
 ```bash
 gradle clean test -Dtag=<testType> -Dbrowser=<browser>
+```
+
+Run specific test
+
+```bash
+gradle clean test --tests tests.web.SongPageTests.openRevisionTabTest -Dtag=<testType> -Dbrowser=<browser>
 ```
 
 ### Specifying auth properties
